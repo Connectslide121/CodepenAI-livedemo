@@ -71,7 +71,7 @@ export default function Codepen() {
                 theme={"dark"}
                 height="50vh"
                 extensions={[htmlLanguage()]}
-                onChange={(value, viewUpdate) => {
+                onChange={(value) => {
                   setHtml(value);
                 }}
               />
@@ -102,7 +102,7 @@ export default function Codepen() {
                   theme={"dark"}
                   height="50vh"
                   extensions={[cssLanguage()]}
-                  onChange={(value, viewUpdate) => {
+                  onChange={(value) => {
                     setCss(value);
                   }}
                 />
@@ -128,7 +128,7 @@ export default function Codepen() {
                   theme={"dark"}
                   height="50vh"
                   extensions={[jsLanguage({ jsx: false })]}
-                  onChange={(value, viewUpdate) => {
+                  onChange={(value) => {
                     setJs(value);
                   }}
                 />
