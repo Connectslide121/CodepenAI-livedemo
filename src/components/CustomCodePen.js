@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import SplitPane from "react-split-pane";
 import CodeMirror from "@uiw/react-codemirror";
-import { javascript } from "@codemirror/lang-javascript";
+import { javascript as jsLanguage } from "@codemirror/lang-javascript";
+import { html as htmlLanguage } from "@codemirror/lang-html";
+import { css as cssLanguage } from "@codemirror/lang-css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHtml5 } from "@fortawesome/free-brands-svg-icons";
@@ -17,24 +19,24 @@ export default function Codepen() {
   const [js, setJs] = useState("");
   const [output, setOutput] = useState("");
 
-  useEffect(() => {
-    updateOutput();
-  }, [html, css, js]);
-
-  const updateOutput = () => {
+  const updateOutput = useCallback(() => {
     const combinedOutput = `
         <html>
-          <head>
-            <style>${css}</style>
-          </head>
-          <body>
-            ${html}
-            <script>${js}</script>
-          </body>
+            <head>
+                <style>${css}</style>
+            </head>
+            <body>
+                ${html}
+                <script>${js}</script>
+            </body>
         </html>
     `;
     setOutput(combinedOutput);
-  };
+  }, [html, css, js]);
+
+  useEffect(() => {
+    updateOutput();
+  }, [updateOutput]);
 
   return (
     <SplitPane
@@ -68,7 +70,7 @@ export default function Codepen() {
                 value={html}
                 theme={"dark"}
                 height="50vh"
-                extensions={[javascript({ jsx: true })]}
+                extensions={[htmlLanguage()]}
                 onChange={(value, viewUpdate) => {
                   setHtml(value);
                 }}
@@ -99,7 +101,7 @@ export default function Codepen() {
                   value={css}
                   theme={"dark"}
                   height="50vh"
-                  extensions={[javascript({ jsx: true })]}
+                  extensions={[cssLanguage()]}
                   onChange={(value, viewUpdate) => {
                     setCss(value);
                   }}
@@ -125,7 +127,7 @@ export default function Codepen() {
                   value={js}
                   theme={"dark"}
                   height="50vh"
-                  extensions={[javascript({ jsx: true })]}
+                  extensions={[jsLanguage({ jsx: false })]}
                   onChange={(value, viewUpdate) => {
                     setJs(value);
                   }}
