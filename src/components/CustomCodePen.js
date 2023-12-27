@@ -43,7 +43,7 @@ export default function Codepen() {
       split="horizontal"
       minSize={0}
       maxSize={-100}
-      defaultSize={"45%"}
+      defaultSize={"70%"}
     >
       <div className="code-boxes">
         <SplitPane
