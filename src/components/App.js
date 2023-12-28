@@ -9,22 +9,26 @@ function App() {
   const [css, setCss] = useState("");
   const [js, setJs] = useState("");
 
-  // Function to update states when new code is received
-  const updateCode = (newHtml, newCss, newJs) => {
-    setHtml(newHtml);
-    setCss(newCss);
-    setJs(newJs);
-  };
+  //Initialize AI code string variables
+  const htmlAI = "";
+  const cssAI = "";
+  const jsAI = "";
 
   // Simulating receiving new code strings
-  const newHtml = "<div>hello, world!</div>";
-  const newCss = "div { color: blue; }";
-  const newJs = 'console.log("Hello from JavaScript!");';
+  // const htmlAI = "<h1>hello, world!</h1>";
+  // const cssAI = "h1 { color: blue; background:yellow; }";
+  // const jsAI = 'console.log("Hello from JavaScript!");';
+
+  // Function to update states when new code is received
+  const updateCode = (htmlAI, cssAI, jsAI) => {
+    setHtml(htmlAI);
+    setCss(cssAI);
+    setJs(jsAI);
+  };
 
   useEffect(() => {
-    // Update states when new code is received
-    updateCode(newHtml, newCss, newJs);
-  }, [newHtml, newCss, newJs]); // Empty dependency array ensures this effect runs only once on mount
+    updateCode(htmlAI, cssAI, jsAI);
+  }, [htmlAI, cssAI, jsAI]); // Empty dependency array ensures this effect runs only once on mount
 
   return (
     <>

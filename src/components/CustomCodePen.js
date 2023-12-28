@@ -8,8 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHtml5 } from "@fortawesome/free-brands-svg-icons";
 import { faCss3Alt } from "@fortawesome/free-brands-svg-icons";
 import { faJs } from "@fortawesome/free-brands-svg-icons";
-// import { faGear } from "@fortawesome/free-solid-svg-icons";
-// import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 export default function Codepen({
@@ -17,9 +15,9 @@ export default function Codepen({
   css: initialCss,
   js: initialJs
 }) {
-  const [html, setHtml] = useState(initialHtml);
-  const [css, setCss] = useState(initialCss);
-  const [js, setJs] = useState(initialJs);
+  const [html, setHtml] = useState("");
+  const [css, setCss] = useState("");
+  const [js, setJs] = useState("");
   const [output, setOutput] = useState("");
   const [outputHeight, setOutputHeight] = useState("");
 
@@ -58,7 +56,19 @@ export default function Codepen({
       const iframe = document.querySelector(".output-frame");
       iframe.onload = null; // Clear the onLoad handler on component unmount
     };
-  }, [updateOutput]);
+  }, [html, css, js, updateOutput]);
+
+  useEffect(() => {
+    setHtml(initialHtml);
+  }, [initialHtml]);
+
+  useEffect(() => {
+    setCss(initialCss);
+  }, [initialCss]);
+
+  useEffect(() => {
+    setJs(initialJs);
+  }, [initialJs]);
 
   return (
     <>
