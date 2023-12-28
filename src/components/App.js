@@ -1,11 +1,11 @@
-import "../styles/App.css";
+import "../style.css";
 import Codepen from "./CustomCodePen.js";
+import InputArea from "./InputArea.js";
 
 function App() {
   return (
     <>
-      <div className="header">Hello</div>
-      <div className="input">Input prompt to send OpenAI API</div>
+      <InputArea />
       <Codepen />
     </>
   );
