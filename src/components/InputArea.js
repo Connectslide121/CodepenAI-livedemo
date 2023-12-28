@@ -15,7 +15,7 @@ export default function InputArea() {
             type="text"
             id="input"
             name="input"
-            placeholder="What website would you like to build?"
+            placeholder="Enter your prompt and I will generate HTML, CSS, and JavaScript code for you"
             value={inputValue}
             onChange={handleInputChange}
           />

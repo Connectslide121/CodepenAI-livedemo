@@ -12,10 +12,14 @@ import { faJs } from "@fortawesome/free-brands-svg-icons";
 // import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
-export default function Codepen() {
-  const [html, setHtml] = useState("");
-  const [css, setCss] = useState("");
-  const [js, setJs] = useState("");
+export default function Codepen({
+  html: initialHtml,
+  css: initialCss,
+  js: initialJs
+}) {
+  const [html, setHtml] = useState(initialHtml);
+  const [css, setCss] = useState(initialCss);
+  const [js, setJs] = useState(initialJs);
   const [output, setOutput] = useState("");
   const [outputHeight, setOutputHeight] = useState("");
 
