@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowUp } from "@fortawesome/free-solid-svg-icons";
 
-export default function InputArea() {
+export default function InputArea({ onUserSubmit }) {
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    setInputValue(`${e.target.value}`);
   };
 
   const handleSubmit = (e) => {
-    return inputValue;
-  }; //probably take {inputValue} and send it to wherever the request is done
+    e.preventDefault(); //prevent the default page reload when submitting
+    onUserSubmit(inputValue);
+  };
 
   return (
     <>
@@ -23,7 +24,7 @@ export default function InputArea() {
             name="input"
             cols={100}
             rows={5}
-            placeholder="Enter your prompt and I will generate HTML, CSS, and JavaScript code for you"
+            placeholder="What should I build for you?"
             onChange={handleInputChange}
           />
           <button type="submit">

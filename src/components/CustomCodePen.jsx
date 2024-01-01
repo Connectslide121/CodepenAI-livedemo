@@ -11,9 +11,10 @@ import { faJs } from "@fortawesome/free-brands-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 export default function Codepen({
-  html: initialHtml,
-  css: initialCss,
-  js: initialJs
+  html: htmlAI,
+  css: cssAI,
+  js: jsAI,
+  onCodeChange
 }) {
   const [html, setHtml] = useState("");
   const [css, setCss] = useState("");
@@ -44,11 +45,15 @@ export default function Codepen({
     iframe.onload = () => {
       // Calculate and set the new height
       const contentHeight = iframe.contentWindow.document.body.scrollHeight;
-      const extraHeight = 40;
+      const extraHeight = 50;
       const iframeHeight = contentHeight + extraHeight;
       setOutputHeight(`${iframeHeight}px`);
     };
-  }, [html, css, js]);
+
+    // Notify the parent component about code changes
+    const newCodeValue = html + css + js;
+    onCodeChange(newCodeValue);
+  }, [html, css, js, onCodeChange]);
 
   useEffect(() => {
     updateOutput();
@@ -59,22 +64,21 @@ export default function Codepen({
   }, [html, css, js, updateOutput]);
 
   useEffect(() => {
-    setHtml(initialHtml);
-  }, [initialHtml]);
+    setHtml(htmlAI);
+  }, [htmlAI]);
 
   useEffect(() => {
-    setCss(initialCss);
-  }, [initialCss]);
+    setCss(cssAI);
+  }, [cssAI]);
 
   useEffect(() => {
-    setJs(initialJs);
-  }, [initialJs]);
+    setJs(jsAI);
+  }, [jsAI]);
 
   return (
     <>
       <div className="code-boxes">
         {/* html box*/}
-
         <div className="code-box html-box">
           <div className="box-header">
             <div className="box-title">
@@ -95,7 +99,6 @@ export default function Codepen({
           </div>
         </div>
         {/* css box*/}
-
         <div className="code-box css-box">
           <div className="box-header">
             <div className="box-title">
@@ -116,7 +119,6 @@ export default function Codepen({
           </div>
         </div>
         {/* javascript box*/}
-
         <div className="code-box js-box">
           <div className="box-header">
             <div className="box-title">
@@ -138,13 +140,11 @@ export default function Codepen({
         </div>
       </div>
       {/* preview box*/}
-
       <div className="preview">
         <div className="box-title preview-title">
           <FontAwesomeIcon className="preview-icon" icon={faMagnifyingGlass} />
           <p>PREVIEW</p>
         </div>
-
         <iframe
           className="output-frame"
           title="Result"

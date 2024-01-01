@@ -25,7 +25,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .input-container textarea {
@@ -37,12 +37,12 @@ body {
 }
 
 .input-container button {
-  font-size: 50px;
+  font-size: 40px;
   margin-left: 12px;
   color: #0f9e7b;
   background: #131417;
   border: none;
-  border-radius: 50%;
+  border-radius: 20%;
   cursor: pointer;
 }
 
