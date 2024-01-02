@@ -4,34 +4,36 @@ import Codepen from "./CustomCodePen.jsx";
 import InputArea from "./InputArea.jsx";
 import Header from "./Header.jsx";
 import CallAPI from "./OpenaiAPI";
+import LoadingState from "./LoadingState.jsx";
 
 function App() {
   const [html, setHtml] = useState("");
   const [css, setCss] = useState("");
   const [js, setJs] = useState("");
   const [currentCode, setCurrentCode] = useState("");
+  const [loadingMessage, setLoadingMessage] = useState("");
 
   const handleCodeChangeFromUser = (newCode) => {
     setCurrentCode(newCode);
   };
 
   function PromptBuilder(userInput) {
-    const prompt = `User input: ${userInput}.\n\
+    const prompt = `User input:\n\
+  ${userInput}.\n\
     \n\
-  Current state of the code blocks:  ${currentCode}`;
+  Current state of the code blocks:\n\
+  ${currentCode}`;
 
     return prompt;
   }
 
   const handleSubmit = (userMessage) => {
     async function requestAPI() {
+      setLoadingMessage("Generating code...");
       const codeAI = await CallAPI(PromptBuilder(userMessage));
 
       const htmlCode = codeAI[0];
       const htmlCodeWithImages = await addImages(htmlCode);
-
-      console.log(htmlCode);
-      console.log(htmlCodeWithImages);
 
       setHtml(htmlCodeWithImages);
       setCss(codeAI[1]);
@@ -52,11 +54,12 @@ function App() {
   }
 
   const addImages = async (htmlCode) => {
-    // Log the original HTML code
-    console.log(htmlCode);
+    setLoadingMessage("Getting images...");
 
     // Define a regular expression to find image tags with the alt attribute
-    const imgRegex = /<img[^>]+alt=["'](.*?)["'][^>]*>/g;
+    const imgRegex = /<img(?:\s+[^>]+)?\s+alt=["'](.*?)["'][^>]*>/g;
+    const altRegex = /alt=["'](.*?)["']/;
+    const srcRegex = /src=["'](.*?)["']/;
 
     // Use match to find all image tags with the specified alt attribute
     const imgMatches = htmlCode.match(imgRegex);
@@ -67,7 +70,7 @@ function App() {
       const modifiedHtml = await Promise.all(
         imgMatches.map(async (imgTag) => {
           // Extract alt text from the matched image tag
-          const altTextMatch = imgTag.match(/alt=["'](.*?)["']/);
+          const altTextMatch = imgTag.match(altRegex);
           const altText = altTextMatch ? altTextMatch[1] : "";
 
           // Call the searchImages function and wait for the result
@@ -75,10 +78,7 @@ function App() {
 
           if (imageObject) {
             // Replace the src attribute in the matched image tag
-            return imgTag.replace(
-              /src=["'](.*?)["']/,
-              `src="${imageObject.urls.small}"`
-            );
+            return imgTag.replace(srcRegex, `src="${imageObject.urls.small}"`);
           } else {
             // If imageObject is not available, return the original match
             return imgTag;
@@ -90,19 +90,23 @@ function App() {
       let index = 0;
       const finalHtml = htmlCode.replace(imgRegex, () => modifiedHtml[index++]);
 
-      // Log the modified HTML code
-      console.log(finalHtml);
-
+      setLoadingMessage("");
       return finalHtml;
     } else {
+      setLoadingMessage("");
       // If there are no matches, return the original HTML code
       return htmlCode;
     }
   };
+
   return (
     <>
       <Header />
-      <InputArea onUserSubmit={handleSubmit} />
+      <div className="input-loading-section">
+        <div className="spacer"></div>
+        <InputArea onUserSubmit={handleSubmit} />{" "}
+        <LoadingState message={loadingMessage} />
+      </div>
       <Codepen
         html={html}
         css={css}

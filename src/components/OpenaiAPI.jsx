@@ -7,10 +7,17 @@ const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true });
 
 export default async function CallAPI(prompt) {
   const options = {
-    messages: [{ role: "system", content: promptContext + prompt }],
+    messages: [
+      { role: "system", content: promptContext },
+      { role: "user", content: prompt }
+    ],
     model: "gpt-3.5-turbo-1106"
   };
-  const response = await openai.chat.completions.create(options);
-  console.log(options);
-  return HandleResponseFromAPI(response.choices[0].message.content);
+  console.log("Calling API:", options);
+
+  const responseObject = await openai.chat.completions.create(options);
+  const responseCode = responseObject.choices[0].message.content;
+
+  console.log("Response from API (object):", responseObject);
+  return HandleResponseFromAPI(responseCode);
 }

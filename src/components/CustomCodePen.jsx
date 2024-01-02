@@ -3,6 +3,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { html as htmlLanguage } from "@codemirror/lang-html";
 import { css as cssLanguage } from "@codemirror/lang-css";
 import { javascript as jsLanguage } from "@codemirror/lang-javascript";
+import { monokai } from "@uiw/codemirror-theme-monokai";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHtml5 } from "@fortawesome/free-brands-svg-icons";
@@ -16,6 +17,8 @@ export default function Codepen({
   js: jsAI,
   onCodeChange
 }) {
+  const codepenTheme = monokai;
+
   const [html, setHtml] = useState("");
   const [css, setCss] = useState("");
   const [js, setJs] = useState("");
@@ -45,7 +48,7 @@ export default function Codepen({
     iframe.onload = () => {
       // Calculate and set the new height
       const contentHeight = iframe.contentWindow.document.body.scrollHeight;
-      const extraHeight = 50;
+      const extraHeight = 30;
       const iframeHeight = contentHeight + extraHeight;
       setOutputHeight(`${iframeHeight}px`);
     };
@@ -89,8 +92,8 @@ export default function Codepen({
           <div>
             <CodeMirror
               value={html}
-              theme={"dark"}
-              height="40vh"
+              theme={codepenTheme}
+              height="350px"
               extensions={[htmlLanguage()]}
               onChange={(value) => {
                 setHtml(value);
@@ -109,8 +112,8 @@ export default function Codepen({
           <div>
             <CodeMirror
               value={css}
-              theme={"dark"}
-              height="40vh"
+              theme={codepenTheme}
+              height="350px"
               extensions={[cssLanguage()]}
               onChange={(value) => {
                 setCss(value);
@@ -129,8 +132,8 @@ export default function Codepen({
           <div>
             <CodeMirror
               value={js}
-              theme={"dark"}
-              height="40vh"
+              theme={codepenTheme}
+              height="350px"
               extensions={[jsLanguage({ jsx: false })]}
               onChange={(value) => {
                 setJs(value);

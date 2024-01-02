@@ -25,7 +25,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 30px;
 }
 
 .input-container textarea {
@@ -48,6 +47,26 @@ body {
 
 .input-container button:hover {
   color: #0f9e7abd;
+}
+
+.loadingSpinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+
+.loadingMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  height: 50px;
+}
+
+.loadingMessage p {
+  color: white;
+  font-size: 20px;
 }
 
 .code-boxes {
@@ -94,6 +113,7 @@ body {
 
 .preview {
   background: white;
+  margin-top: 5px;
 }
 
 .output-frame {
