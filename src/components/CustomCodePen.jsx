@@ -48,13 +48,20 @@ export default function Codepen({
     iframe.onload = () => {
       // Calculate and set the new height
       const contentHeight = iframe.contentWindow.document.body.scrollHeight;
-      const extraHeight = 30;
+      const extraHeight = 50;
       const iframeHeight = contentHeight + extraHeight;
       setOutputHeight(`${iframeHeight}px`);
     };
 
     // Notify the parent component about code changes
-    const newCodeValue = html + css + js;
+    const newCodeValue = `Current html: \n\
+    ${html}\n\
+    \n\
+    Current CSS: \n\
+    ${css}\n\
+    \n\
+    Current Javascript: \n\
+    ${js}`;
     onCodeChange(newCodeValue);
   }, [html, css, js, onCodeChange]);
 

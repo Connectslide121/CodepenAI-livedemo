@@ -4,14 +4,19 @@ import { faCircleArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 export default function InputArea({ onUserSubmit }) {
   const [inputValue, setInputValue] = useState("");
+  const [apiKey, setApiKey] = useState("");
 
   const handleInputChange = (e) => {
     setInputValue(`${e.target.value}`);
   };
 
+  const handleApiKeyChange = (e) => {
+    setApiKey(`${e.target.value}`);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onUserSubmit(inputValue);
+    onUserSubmit(inputValue, apiKey);
   };
 
   useEffect(() => {
@@ -24,17 +29,34 @@ export default function InputArea({ onUserSubmit }) {
     <>
       <div className="input-container">
         <form onSubmit={handleSubmit}>
-          <textarea
-            autoFocus
-            id="input"
-            name="input"
-            cols={100}
-            rows={1}
-            placeholder="What should I build for you?"
-            value={inputValue}
-            onChange={handleInputChange}
-            required
-          />
+          <div className="form-inputs-wrapper">
+            <div className="api-key-input">
+              <label htmlFor="apiKey">API Key</label>
+              <textarea
+                name="apiKey"
+                id="apiKey"
+                cols="100"
+                rows="1"
+                placeholder="Insert a valid openAI API key"
+                value={apiKey}
+                onChange={handleApiKeyChange}
+              ></textarea>
+            </div>
+            <div className="user-message-input">
+              <label htmlFor="input">Message</label>
+              <textarea
+                autoFocus
+                id="input"
+                name="input"
+                cols={100}
+                rows={1}
+                placeholder="What should I build for you?"
+                value={inputValue}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          </div>
           <button type="submit">
             <FontAwesomeIcon icon={faCircleArrowUp} />
           </button>

@@ -1,11 +1,11 @@
 import OpenAI from "openai";
-import apiKey from "./config.js";
+// import apiKey from "./config.js";
 import promptContext from "./promptContext.js";
 import { HandleResponseFromAPI } from "./ResponseSpliter.jsx";
 
-const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true });
+export default async function CallAPI(prompt, apiKey) {
+  const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true });
 
-export default async function CallAPI(prompt) {
   const options = {
     messages: [
       { role: "system", content: promptContext },

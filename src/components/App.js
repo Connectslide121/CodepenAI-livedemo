@@ -22,15 +22,17 @@ function App() {
   ${userInput}.\n\
     \n\
   Current state of the code blocks:\n\
-  ${currentCode}`;
+  ${currentCode}\n\
+  \n\
+  EXTREMELY IMPORTANT: ALWAYS RESPECT THE INSTRUCTIONS GIVEN BY THE SYSTEM ROLE`;
 
     return prompt;
   }
 
-  const handleSubmit = (userMessage) => {
+  const handleSubmit = (userMessage, apiKey) => {
     async function requestAPI() {
       setLoadingMessage("Generating code...");
-      const codeAI = await CallAPI(PromptBuilder(userMessage));
+      const codeAI = await CallAPI(PromptBuilder(userMessage), apiKey);
 
       const htmlCode = codeAI[0];
       const htmlCodeWithImages = await addImages(htmlCode);
@@ -102,11 +104,8 @@ function App() {
   return (
     <>
       <Header />
-      <div className="input-loading-section">
-        <div className="spacer"></div>
-        <InputArea onUserSubmit={handleSubmit} />{" "}
-        <LoadingState message={loadingMessage} />
-      </div>
+      <InputArea onUserSubmit={handleSubmit} />{" "}
+      <LoadingState message={loadingMessage} />
       <Codepen
         html={html}
         css={css}
