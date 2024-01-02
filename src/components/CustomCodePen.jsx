@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import CodeMirror from "@uiw/react-codemirror";
-import { javascript as jsLanguage } from "@codemirror/lang-javascript";
 import { html as htmlLanguage } from "@codemirror/lang-html";
 import { css as cssLanguage } from "@codemirror/lang-css";
+import { javascript as jsLanguage } from "@codemirror/lang-javascript";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHtml5 } from "@fortawesome/free-brands-svg-icons";

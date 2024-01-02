@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../style.css";
 import Codepen from "./CustomCodePen.jsx";
 import InputArea from "./InputArea.jsx";
@@ -10,22 +10,6 @@ function App() {
   const [css, setCss] = useState("");
   const [js, setJs] = useState("");
   const [currentCode, setCurrentCode] = useState("");
-
-  //Initialize AI code string variables
-  const htmlAI = "";
-  const cssAI = "";
-  const jsAI = "";
-
-  // Function to update states when new code is received
-  const updateCodeFromAI = (htmlAI, cssAI, jsAI) => {
-    setHtml(htmlAI);
-    setCss(cssAI);
-    setJs(jsAI);
-  };
-
-  useEffect(() => {
-    updateCodeFromAI(htmlAI, cssAI, jsAI);
-  }, [htmlAI, cssAI, jsAI]);
 
   const handleCodeChangeFromUser = (newCode) => {
     setCurrentCode(newCode);
@@ -44,34 +28,77 @@ function App() {
       const codeAI = await CallAPI(PromptBuilder(userMessage));
 
       const htmlCode = codeAI[0];
-      const htmlCodeWithImages = addImages(htmlCode);
+      const htmlCodeWithImages = await addImages(htmlCode);
 
-      setHtml(codeAI[0]);
+      console.log(htmlCode);
+      console.log(htmlCodeWithImages);
+
+      setHtml(htmlCodeWithImages);
       setCss(codeAI[1]);
       setJs(codeAI[2]);
     }
     requestAPI();
   };
 
-  const addImages = (htmlCode) => {
-    // Create a temporary element (a div) to hold the HTML code
-    var tempElement = document.createElement("div");
-    tempElement.innerHTML = htmlCode;
+  async function searchImages(query) {
+    const url = `https://api.unsplash.com/search/photos?page=${1}&query=${query}&client_id=${"HUBfBOYAY2krhsIhIpu7c0OgMgGPY3ru198GUXrXBy0"}`;
 
-    // Find all image elements within the temporary element
-    var imageElements = tempElement.getElementsByTagName("img");
+    const response = await fetch(url);
+    const data = await response.json();
 
-    // Check if there are any image elements
-    const containsImages = imageElements.length > 0;
+    const results = data.results;
 
-    // Clean up the temporary element (optional, but good practice)
-    tempElement = null;
+    return results[0];
+  }
 
-    console.log("HTML contains images:", containsImages);
+  const addImages = async (htmlCode) => {
+    // Log the original HTML code
+    console.log(htmlCode);
 
-    // return htmlWithImages;
+    // Define a regular expression to find image tags with the alt attribute
+    const imgRegex = /<img[^>]+alt=["'](.*?)["'][^>]*>/g;
+
+    // Use match to find all image tags with the specified alt attribute
+    const imgMatches = htmlCode.match(imgRegex);
+
+    // Check if there are any matches
+    if (imgMatches) {
+      // Use Promise.all to wait for all async operations to complete
+      const modifiedHtml = await Promise.all(
+        imgMatches.map(async (imgTag) => {
+          // Extract alt text from the matched image tag
+          const altTextMatch = imgTag.match(/alt=["'](.*?)["']/);
+          const altText = altTextMatch ? altTextMatch[1] : "";
+
+          // Call the searchImages function and wait for the result
+          const imageObject = await searchImages(altText);
+
+          if (imageObject) {
+            // Replace the src attribute in the matched image tag
+            return imgTag.replace(
+              /src=["'](.*?)["']/,
+              `src="${imageObject.urls.small}"`
+            );
+          } else {
+            // If imageObject is not available, return the original match
+            return imgTag;
+          }
+        })
+      );
+
+      // Replace the modified image tags in the original HTML code
+      let index = 0;
+      const finalHtml = htmlCode.replace(imgRegex, () => modifiedHtml[index++]);
+
+      // Log the modified HTML code
+      console.log(finalHtml);
+
+      return finalHtml;
+    } else {
+      // If there are no matches, return the original HTML code
+      return htmlCode;
+    }
   };
-
   return (
     <>
       <Header />
