@@ -95,6 +95,16 @@ export default function Codepen({
               <FontAwesomeIcon className="html-icon" icon={faHtml5} />
               <p>HTML</p>
             </div>
+            {/* <div className="box-controls">
+              <button onClick="">Undo</button>
+              <button onClick="">Redo</button>
+              <button onClick="">Copy</button>
+              <button onClick="">Clear</button>
+              <select name="theme" id="theme">
+                <option value="dark">Dark theme</option>
+                <option value="light">Light theme</option>
+              </select>
+            </div> */}
           </div>
           <div>
             <CodeMirror
@@ -115,6 +125,16 @@ export default function Codepen({
               <FontAwesomeIcon className="css-icon" icon={faCss3Alt} />
               <p>CSS</p>
             </div>
+            {/* <div className="box-controls">
+              <button onClick="">Undo</button>
+              <button onClick="">Redo</button>
+              <button onClick="">Copy</button>
+              <button onClick="">Clear</button>
+              <select name="theme" id="theme">
+                <option value="dark">Dark theme</option>
+                <option value="light">Light theme</option>
+              </select>
+            </div> */}
           </div>
           <div>
             <CodeMirror
@@ -135,6 +155,16 @@ export default function Codepen({
               <FontAwesomeIcon className="js-icon" icon={faJs} />
               <p>JS</p>
             </div>
+            {/* <div className="box-controls">
+              <button onClick="">Undo</button>
+              <button onClick="">Redo</button>
+              <button onClick="">Copy</button>
+              <button onClick="">Clear</button>
+              <select name="theme" id="theme">
+                <option value="dark">Dark theme</option>
+                <option value="light">Light theme</option>
+              </select>
+            </div> */}
           </div>
           <div>
             <CodeMirror

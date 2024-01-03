@@ -7,10 +7,7 @@ export default async function CallAPI(prompt, apiKey) {
   const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true });
 
   const options = {
-    messages: [
-      { role: "system", content: promptContext },
-      { role: "user", content: prompt }
-    ],
+    messages: [{ role: "system", content: promptContext + prompt }],
     model: "gpt-3.5-turbo-1106"
   };
   console.log("Calling API:", options);
