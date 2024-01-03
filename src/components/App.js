@@ -22,9 +22,7 @@ function App() {
   ${userInput}.\n\
     \n\
   Current state of the code blocks:\n\
-  ${currentCode}\n\
-  \n\
-  EXTREMELY IMPORTANT: ALWAYS RESPECT THE INSTRUCTIONS GIVEN BY THE SYSTEM ROLE`;
+  ${currentCode}`;
 
     return prompt;
   }

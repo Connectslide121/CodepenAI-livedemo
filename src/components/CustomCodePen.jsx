@@ -1,15 +1,20 @@
 import React, { useEffect, useState, useCallback } from "react";
 import CodeMirror from "@uiw/react-codemirror";
+import { color } from "@uiw/codemirror-extensions-color";
 import { html as htmlLanguage } from "@codemirror/lang-html";
 import { css as cssLanguage } from "@codemirror/lang-css";
 import { javascript as jsLanguage } from "@codemirror/lang-javascript";
-import { monokai } from "@uiw/codemirror-theme-monokai";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHtml5 } from "@fortawesome/free-brands-svg-icons";
 import { faCss3Alt } from "@fortawesome/free-brands-svg-icons";
 import { faJs } from "@fortawesome/free-brands-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faPalette } from "@fortawesome/free-solid-svg-icons";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function Codepen({
   html: htmlAI,
@@ -17,13 +22,14 @@ export default function Codepen({
   js: jsAI,
   onCodeChange
 }) {
-  const codepenTheme = monokai;
-
   const [html, setHtml] = useState("");
   const [css, setCss] = useState("");
   const [js, setJs] = useState("");
   const [output, setOutput] = useState("");
   const [outputHeight, setOutputHeight] = useState("");
+  const [htmlTheme, setHtmlTheme] = useState("dark");
+  const [cssTheme, setCssTheme] = useState("dark");
+  const [jsTheme, setJsTheme] = useState("dark");
 
   const updateOutput = useCallback(() => {
     const iframe = document.querySelector(".output-frame");
@@ -65,6 +71,22 @@ export default function Codepen({
     onCodeChange(newCodeValue);
   }, [html, css, js, onCodeChange]);
 
+  const toggleTheme = (language) => {
+    switch (language) {
+      case "html":
+        setHtmlTheme(htmlTheme === "dark" ? "light" : "dark");
+        break;
+      case "css":
+        setCssTheme(cssTheme === "dark" ? "light" : "dark");
+        break;
+      case "js":
+        setJsTheme(jsTheme === "dark" ? "light" : "dark");
+        break;
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
     updateOutput();
     return () => {
@@ -95,23 +117,33 @@ export default function Codepen({
               <FontAwesomeIcon className="html-icon" icon={faHtml5} />
               <p>HTML</p>
             </div>
-            {/* <div className="box-controls">
-              <button onClick="">Undo</button>
-              <button onClick="">Redo</button>
-              <button onClick="">Copy</button>
-              <button onClick="">Clear</button>
-              <select name="theme" id="theme">
-                <option value="dark">Dark theme</option>
-                <option value="light">Light theme</option>
-              </select>
-            </div> */}
+            <div className="box-controls">
+              <button title="Undo" onClick="">
+                <FontAwesomeIcon icon={faRotateLeft} />
+              </button>
+              <button title="Redo" onClick="">
+                <FontAwesomeIcon icon={faRotateRight} />
+              </button>
+              <button
+                title="Copy code"
+                onClick={() => navigator.clipboard.writeText(html)}
+              >
+                <FontAwesomeIcon icon={faCopy} />
+              </button>
+              <button title="Clear code" onClick={() => setHtml("")}>
+                <FontAwesomeIcon icon={faTrashCan} />
+              </button>
+              <button title="Toggle theme" onClick={() => toggleTheme("html")}>
+                <FontAwesomeIcon icon={faPalette} />
+              </button>{" "}
+            </div>
           </div>
           <div>
             <CodeMirror
               value={html}
-              theme={codepenTheme}
+              theme={htmlTheme}
               height="350px"
-              extensions={[htmlLanguage()]}
+              extensions={[htmlLanguage(), color]}
               onChange={(value) => {
                 setHtml(value);
               }}
@@ -125,23 +157,33 @@ export default function Codepen({
               <FontAwesomeIcon className="css-icon" icon={faCss3Alt} />
               <p>CSS</p>
             </div>
-            {/* <div className="box-controls">
-              <button onClick="">Undo</button>
-              <button onClick="">Redo</button>
-              <button onClick="">Copy</button>
-              <button onClick="">Clear</button>
-              <select name="theme" id="theme">
-                <option value="dark">Dark theme</option>
-                <option value="light">Light theme</option>
-              </select>
-            </div> */}
+            <div className="box-controls">
+              <button title="Undo" onClick="">
+                <FontAwesomeIcon icon={faRotateLeft} />
+              </button>
+              <button title="Redo" onClick="">
+                <FontAwesomeIcon icon={faRotateRight} />
+              </button>
+              <button
+                title="Copy code"
+                onClick={() => navigator.clipboard.writeText(css)}
+              >
+                <FontAwesomeIcon icon={faCopy} />
+              </button>
+              <button title="Clear code" onClick={() => setCss("")}>
+                <FontAwesomeIcon icon={faTrashCan} />
+              </button>
+              <button title="Toggle theme" onClick={() => toggleTheme("css")}>
+                <FontAwesomeIcon icon={faPalette} />
+              </button>{" "}
+            </div>
           </div>
           <div>
             <CodeMirror
               value={css}
-              theme={codepenTheme}
+              theme={cssTheme}
               height="350px"
-              extensions={[cssLanguage()]}
+              extensions={[cssLanguage(), color]}
               onChange={(value) => {
                 setCss(value);
               }}
@@ -155,23 +197,33 @@ export default function Codepen({
               <FontAwesomeIcon className="js-icon" icon={faJs} />
               <p>JS</p>
             </div>
-            {/* <div className="box-controls">
-              <button onClick="">Undo</button>
-              <button onClick="">Redo</button>
-              <button onClick="">Copy</button>
-              <button onClick="">Clear</button>
-              <select name="theme" id="theme">
-                <option value="dark">Dark theme</option>
-                <option value="light">Light theme</option>
-              </select>
-            </div> */}
+            <div className="box-controls">
+              <button title="Undo" onClick="">
+                <FontAwesomeIcon icon={faRotateLeft} />
+              </button>
+              <button title="Redo" onClick="">
+                <FontAwesomeIcon icon={faRotateRight} />
+              </button>
+              <button
+                title="Copy code"
+                onClick={() => navigator.clipboard.writeText(js)}
+              >
+                <FontAwesomeIcon icon={faCopy} />
+              </button>
+              <button title="Clear code" onClick={() => setJs("")}>
+                <FontAwesomeIcon icon={faTrashCan} />
+              </button>
+              <button title="Toggle theme" onClick={() => toggleTheme("js")}>
+                <FontAwesomeIcon icon={faPalette} />
+              </button>{" "}
+            </div>
           </div>
           <div>
             <CodeMirror
               value={js}
-              theme={codepenTheme}
+              theme={jsTheme}
               height="350px"
-              extensions={[jsLanguage({ jsx: false })]}
+              extensions={[jsLanguage({ jsx: false }), color]}
               onChange={(value) => {
                 setJs(value);
               }}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faUpLong } from "@fortawesome/free-solid-svg-icons";
 
 export default function InputArea({ onUserSubmit }) {
   const [inputValue, setInputValue] = useState("");
@@ -58,7 +58,7 @@ export default function InputArea({ onUserSubmit }) {
             </div>
           </div>
           <button type="submit">
-            <FontAwesomeIcon icon={faCircleArrowUp} />
+            <FontAwesomeIcon icon={faUpLong} />{" "}
           </button>
         </form>
       </div>

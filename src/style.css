@@ -55,17 +55,18 @@ body {
 }
 
 .input-container button {
-  font-size: 40px;
+  font-size: 24px;
   margin-left: 12px;
-  color: #0f9e7b;
-  background: #131417;
+  background: #0f9e7b;
+  color: #131417;
   border: none;
-  border-radius: 20%;
+  border-radius: 10px;
   cursor: pointer;
+  width: 50px;
 }
 
 .input-container button:hover {
-  color: #0f9e7abd;
+  background: #0f9e7abd;
 }
 
 .loadingSpinner {
@@ -90,11 +91,15 @@ body {
 
 .code-boxes {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
 }
 
 .code-box {
-  width: 33.2%;
+  width: 33%;
+  background: #302e2e;
+  border-top: solid 4px gray;
 }
 
 .box-header {
@@ -104,8 +109,6 @@ body {
 
 .box-title {
   display: flex;
-  background: #252525;
-  border-top: solid 4px gray;
   padding: 10px;
 }
 
@@ -130,9 +133,35 @@ body {
   color: gray;
 }
 
+.box-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 6px;
+}
+
+.box-controls button {
+  padding: 6px;
+  height: 80%;
+  font-size: 16px;
+  color: gray;
+  background: #252525;
+  border: 1px solid #525050;
+}
+
+.box-controls button:hover {
+  background: #131417;
+  border: 1px solid #797878;
+}
+
+.preview-title {
+  background: #302e2e;
+  border-top: solid 4px gray;
+}
+
 .preview {
   background: white;
-  margin-top: 2px;
+  margin-top: 5px;
 }
 
 .output-frame {
