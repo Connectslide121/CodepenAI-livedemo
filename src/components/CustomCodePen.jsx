@@ -107,6 +107,22 @@ export default function Codepen({
     setJs(jsAI);
   }, [jsAI]);
 
+  function undo(codeBoxClass) {
+    var codeBox = document.querySelector(codeBoxClass);
+    if (codeBox) {
+      codeBox.focus();
+      document.execCommand("undo", false, null);
+    }
+  }
+
+  function redo(codeBoxClass) {
+    var codeBox = document.querySelector(codeBoxClass);
+    if (codeBox) {
+      codeBox.focus();
+      document.execCommand("redo", false, null);
+    }
+  }
+
   return (
     <>
       <div className="code-boxes">
@@ -118,10 +134,10 @@ export default function Codepen({
               <p>HTML</p>
             </div>
             <div className="box-controls">
-              <button title="Undo" onClick="">
+              <button title="Undo" onClick={() => undo(".htmlCodeBox")}>
                 <FontAwesomeIcon icon={faRotateLeft} />
               </button>
-              <button title="Redo" onClick="">
+              <button title="Redo" onClick={() => redo(".htmlCodeBox")}>
                 <FontAwesomeIcon icon={faRotateRight} />
               </button>
               <button
@@ -140,6 +156,7 @@ export default function Codepen({
           </div>
           <div>
             <CodeMirror
+              className="htmlCodeBox"
               value={html}
               theme={htmlTheme}
               height="350px"
@@ -158,10 +175,10 @@ export default function Codepen({
               <p>CSS</p>
             </div>
             <div className="box-controls">
-              <button title="Undo" onClick="">
+              <button title="Undo" onClick={() => undo(".cssCodeBox")}>
                 <FontAwesomeIcon icon={faRotateLeft} />
               </button>
-              <button title="Redo" onClick="">
+              <button title="Redo" onClick={() => redo(".cssCodeBox")}>
                 <FontAwesomeIcon icon={faRotateRight} />
               </button>
               <button
@@ -180,6 +197,7 @@ export default function Codepen({
           </div>
           <div>
             <CodeMirror
+              className="cssCodeBox"
               value={css}
               theme={cssTheme}
               height="350px"
@@ -198,10 +216,10 @@ export default function Codepen({
               <p>JS</p>
             </div>
             <div className="box-controls">
-              <button title="Undo" onClick="">
+              <button title="Undo" onClick={() => undo(".jsCodeBox")}>
                 <FontAwesomeIcon icon={faRotateLeft} />
               </button>
-              <button title="Redo" onClick="">
+              <button title="Redo" onClick={() => redo(".jsCodeBox")}>
                 <FontAwesomeIcon icon={faRotateRight} />
               </button>
               <button
@@ -220,6 +238,7 @@ export default function Codepen({
           </div>
           <div>
             <CodeMirror
+              className="jsCodeBox"
               value={js}
               theme={jsTheme}
               height="350px"
