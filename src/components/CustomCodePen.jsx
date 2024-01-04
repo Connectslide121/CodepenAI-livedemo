@@ -13,8 +13,8 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faPalette } from "@fortawesome/free-solid-svg-icons";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
-import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
+// import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+// import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function Codepen({
   html: htmlAI,
@@ -107,22 +107,6 @@ export default function Codepen({
     setJs(jsAI);
   }, [jsAI]);
 
-  function undo(codeBoxClass) {
-    var codeBox = document.querySelector(codeBoxClass);
-    if (codeBox) {
-      codeBox.focus();
-      document.execCommand("undo", false, null);
-    }
-  }
-
-  function redo(codeBoxClass) {
-    var codeBox = document.querySelector(codeBoxClass);
-    if (codeBox) {
-      codeBox.focus();
-      document.execCommand("redo", false, null);
-    }
-  }
-
   return (
     <>
       <div className="code-boxes">
@@ -134,12 +118,12 @@ export default function Codepen({
               <p>HTML</p>
             </div>
             <div className="box-controls">
-              <button title="Undo" onClick={() => undo(".htmlCodeBox")}>
+              {/* <button title="Undo" onClick={() => ""}>
                 <FontAwesomeIcon icon={faRotateLeft} />
               </button>
-              <button title="Redo" onClick={() => redo(".htmlCodeBox")}>
+              <button title="Redo" onClick={() => ""}>
                 <FontAwesomeIcon icon={faRotateRight} />
-              </button>
+              </button> */}
               <button
                 title="Copy code"
                 onClick={() => navigator.clipboard.writeText(html)}
@@ -175,12 +159,12 @@ export default function Codepen({
               <p>CSS</p>
             </div>
             <div className="box-controls">
-              <button title="Undo" onClick={() => undo(".cssCodeBox")}>
+              {/* <button title="Undo" onClick={() => ""}>
                 <FontAwesomeIcon icon={faRotateLeft} />
               </button>
-              <button title="Redo" onClick={() => redo(".cssCodeBox")}>
+              <button title="Redo" onClick={() => ""}>
                 <FontAwesomeIcon icon={faRotateRight} />
-              </button>
+              </button> */}
               <button
                 title="Copy code"
                 onClick={() => navigator.clipboard.writeText(css)}
@@ -216,12 +200,12 @@ export default function Codepen({
               <p>JS</p>
             </div>
             <div className="box-controls">
-              <button title="Undo" onClick={() => undo(".jsCodeBox")}>
+              {/* <button title="Undo" onClick={() => ""}>
                 <FontAwesomeIcon icon={faRotateLeft} />
               </button>
-              <button title="Redo" onClick={() => redo(".jsCodeBox")}>
+              <button title="Redo" onClick={() => ""}>
                 <FontAwesomeIcon icon={faRotateRight} />
-              </button>
+              </button> */}
               <button
                 title="Copy code"
                 onClick={() => navigator.clipboard.writeText(js)}

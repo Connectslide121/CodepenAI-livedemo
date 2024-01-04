@@ -47,7 +47,6 @@ function App() {
 
     const response = await fetch(url);
     const data = await response.json();
-
     const results = data.results;
 
     return results[0];
@@ -102,7 +101,7 @@ function App() {
   return (
     <>
       <Header />
-      <InputArea onUserSubmit={handleSubmit} />{" "}
+      <InputArea onUserSubmit={handleSubmit} />
       <LoadingState message={loadingMessage} />
       <Codepen
         html={html}
