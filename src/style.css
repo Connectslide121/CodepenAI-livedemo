@@ -107,6 +107,11 @@ body {
 .codepen-header button:hover {
   background: #131417;
   border: 1px solid #797878;
+  cursor: pointer;
+}
+
+.codepen-header button:active {
+  background: #33363f;
 }
 
 .code-boxes {
@@ -172,6 +177,11 @@ body {
 .box-controls button:hover {
   background: #131417;
   border: 1px solid #797878;
+  cursor: pointer;
+}
+
+.box-controls button:active {
+  background: #33363f;
 }
 
 .preview-title {
