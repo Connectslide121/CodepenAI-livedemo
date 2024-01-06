@@ -254,7 +254,13 @@ export default function Codepen({
               >
                 <FontAwesomeIcon icon={faCopy} />
               </button>
-              <button title="Clear code" onClick={() => setHtml("")}>
+              <button
+                title="Clear code"
+                onClick={() => {
+                  setHtml("");
+                  updateHtmlHistory();
+                }}
+              >
                 <FontAwesomeIcon icon={faTrashCan} />
               </button>
               <button title="Toggle theme" onClick={() => toggleTheme("html")}>
@@ -296,7 +302,13 @@ export default function Codepen({
               >
                 <FontAwesomeIcon icon={faCopy} />
               </button>
-              <button title="Clear code" onClick={() => setCss("")}>
+              <button
+                title="Clear code"
+                onClick={() => {
+                  setCss("");
+                  updateCssHistory();
+                }}
+              >
                 <FontAwesomeIcon icon={faTrashCan} />
               </button>
               <button title="Toggle theme" onClick={() => toggleTheme("css")}>
@@ -338,7 +350,13 @@ export default function Codepen({
               >
                 <FontAwesomeIcon icon={faCopy} />
               </button>
-              <button title="Clear code" onClick={() => setJs("")}>
+              <button
+                title="Clear code"
+                onClick={() => {
+                  setJs("");
+                  updateJsHistory();
+                }}
+              >
                 <FontAwesomeIcon icon={faTrashCan} />
               </button>
               <button title="Toggle theme" onClick={() => toggleTheme("js")}>
