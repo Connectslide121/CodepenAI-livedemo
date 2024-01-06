@@ -89,6 +89,26 @@ body {
   font-size: 20px;
 }
 
+.codepen-header {
+  display: flex;
+  justify-content: center;
+}
+
+.codepen-header button {
+  padding: 5px;
+  margin: 6px;
+  width: 200px;
+  color: gray;
+  background: #252525;
+  border: 1px solid #525050;
+  font-size: 16px;
+}
+
+.codepen-header button:hover {
+  background: #131417;
+  border: 1px solid #797878;
+}
+
 .code-boxes {
   display: flex;
   justify-content: center;

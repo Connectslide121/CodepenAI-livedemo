@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import JSZip from "jszip";
 import CodeMirror from "@uiw/react-codemirror";
 import { color } from "@uiw/codemirror-extensions-color";
 import { html as htmlLanguage } from "@codemirror/lang-html";
@@ -15,6 +16,7 @@ import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 export default function Codepen({
   html: htmlAI,
@@ -118,77 +120,119 @@ export default function Codepen({
 
   //********************* undo redo functions **************************/
 
-  function updateHtmlHistory() {
+  const updateHtmlHistory = () => {
     setHtmlHistory((prevHistory) => [...prevHistory, html]);
     setHtmlRedoHistory([]);
-  }
+  };
 
-  function undoHtml() {
+  const undoHtml = () => {
     const previousHtml = htmlHistory[htmlHistory.length - 1];
     if (previousHtml !== undefined) {
       setHtmlHistory((prevHistory) => prevHistory.slice(0, -1));
       setHtmlRedoHistory((prevRedoHistory) => [...prevRedoHistory, html]);
       setHtml(previousHtml);
     }
-  }
+  };
 
-  function redoHtml() {
+  const redoHtml = () => {
     const redoHtmlState = htmlRedoHistory[htmlRedoHistory.length - 1];
     if (redoHtmlState !== undefined) {
       setHtmlRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
       setHtmlHistory((prevHistory) => [...prevHistory, html]);
       setHtml(redoHtmlState);
     }
-  }
+  };
 
-  function updateCssHistory() {
+  const updateCssHistory = () => {
     setCssHistory((prevHistory) => [...prevHistory, css]);
     setCssRedoHistory([]);
-  }
+  };
 
-  function undoCss() {
+  const undoCss = () => {
     const previousCss = cssHistory[cssHistory.length - 1];
     if (previousCss !== undefined) {
       setCssHistory((prevHistory) => prevHistory.slice(0, -1));
       setCssRedoHistory((prevRedoHistory) => [...prevRedoHistory, css]);
       setCss(previousCss);
     }
-  }
+  };
 
-  function redoCss() {
+  const redoCss = () => {
     const redoCssState = cssRedoHistory[cssRedoHistory.length - 1];
     if (redoCssState !== undefined) {
       setCssRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
       setCssHistory((prevHistory) => [...prevHistory, css]);
       setCss(redoCssState);
     }
-  }
+  };
 
-  function updateJsHistory() {
+  const updateJsHistory = () => {
     setJsHistory((prevHistory) => [...prevHistory, js]);
     setJsRedoHistory([]);
-  }
+  };
 
-  function undoJs() {
+  const undoJs = () => {
     const previousJs = jsHistory[jsHistory.length - 1];
     if (previousJs !== undefined) {
       setJsHistory((prevHistory) => prevHistory.slice(0, -1));
       setJsRedoHistory((prevRedoHistory) => [...prevRedoHistory, js]);
       setJs(previousJs);
     }
-  }
+  };
 
-  function redoJs() {
+  const redoJs = () => {
     const redoJsState = jsRedoHistory[jsRedoHistory.length - 1];
     if (redoJsState !== undefined) {
       setJsRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
       setJsHistory((prevHistory) => [...prevHistory, js]);
       setJs(redoJsState);
     }
-  }
+  };
+
+  //********************* download project **************************/
+
+  const downloadFolder = () => {
+    const folderContent = {
+      "index.html": html,
+      "styles.css": css,
+      "script.js": js
+    };
+
+    const zip = new JSZip();
+
+    Object.keys(folderContent).forEach((fileName) => {
+      zip.file(fileName, folderContent[fileName]);
+    });
+
+    zip.generateAsync({ type: "blob" }).then((content) => {
+      const blob = new Blob([content], { type: "application/zip" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "codepenAI-project.zip";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  };
+
+  //********************* clear project **************************/
+
+  const clearProject = () => {
+    setHtml("");
+    setCss("");
+    setJs("");
+  };
 
   return (
-    <>
+    <div className="codepen">
+      <div className="codepen-header">
+        <button title="Download project zip" onClick={() => downloadFolder()}>
+          <FontAwesomeIcon icon={faDownload} /> Download project
+        </button>
+        <button title="Clear project" onClick={() => clearProject()}>
+          <FontAwesomeIcon icon={faTrashCan} /> Clear project
+        </button>
+      </div>
       <div className="code-boxes">
         {/* html box*/}
         <div className="code-box html-box">
@@ -330,6 +374,6 @@ export default function Codepen({
           style={{ height: outputHeight }}
         />
       </div>
-    </>
+    </div>
   );
 }
