@@ -13,8 +13,8 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faPalette } from "@fortawesome/free-solid-svg-icons";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-// import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
-// import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function Codepen({
   html: htmlAI,
@@ -30,6 +30,12 @@ export default function Codepen({
   const [htmlTheme, setHtmlTheme] = useState("dark");
   const [cssTheme, setCssTheme] = useState("dark");
   const [jsTheme, setJsTheme] = useState("dark");
+  const [htmlHistory, setHtmlHistory] = useState([]);
+  const [htmlRedoHistory, setHtmlRedoHistory] = useState([]);
+  const [cssHistory, setCssHistory] = useState([]);
+  const [cssRedoHistory, setCssRedoHistory] = useState([]);
+  const [jsHistory, setJsHistory] = useState([]);
+  const [jsRedoHistory, setJsRedoHistory] = useState([]);
 
   const updateOutput = useCallback(() => {
     const iframe = document.querySelector(".output-frame");
@@ -97,15 +103,89 @@ export default function Codepen({
 
   useEffect(() => {
     setHtml(htmlAI);
+    updateHtmlHistory();
   }, [htmlAI]);
 
   useEffect(() => {
     setCss(cssAI);
+    updateCssHistory();
   }, [cssAI]);
 
   useEffect(() => {
     setJs(jsAI);
+    updateJsHistory();
   }, [jsAI]);
+
+  //********************* undo redo functions **************************/
+
+  function updateHtmlHistory() {
+    setHtmlHistory((prevHistory) => [...prevHistory, html]);
+    setHtmlRedoHistory([]);
+  }
+
+  function undoHtml() {
+    const previousHtml = htmlHistory[htmlHistory.length - 1];
+    if (previousHtml !== undefined) {
+      setHtmlHistory((prevHistory) => prevHistory.slice(0, -1));
+      setHtmlRedoHistory((prevRedoHistory) => [...prevRedoHistory, html]);
+      setHtml(previousHtml);
+    }
+  }
+
+  function redoHtml() {
+    const redoHtmlState = htmlRedoHistory[htmlRedoHistory.length - 1];
+    if (redoHtmlState !== undefined) {
+      setHtmlRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
+      setHtmlHistory((prevHistory) => [...prevHistory, html]);
+      setHtml(redoHtmlState);
+    }
+  }
+
+  function updateCssHistory() {
+    setCssHistory((prevHistory) => [...prevHistory, css]);
+    setCssRedoHistory([]);
+  }
+
+  function undoCss() {
+    const previousCss = cssHistory[cssHistory.length - 1];
+    if (previousCss !== undefined) {
+      setCssHistory((prevHistory) => prevHistory.slice(0, -1));
+      setCssRedoHistory((prevRedoHistory) => [...prevRedoHistory, css]);
+      setCss(previousCss);
+    }
+  }
+
+  function redoCss() {
+    const redoCssState = cssRedoHistory[cssRedoHistory.length - 1];
+    if (redoCssState !== undefined) {
+      setCssRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
+      setCssHistory((prevHistory) => [...prevHistory, css]);
+      setCss(redoCssState);
+    }
+  }
+
+  function updateJsHistory() {
+    setJsHistory((prevHistory) => [...prevHistory, js]);
+    setJsRedoHistory([]);
+  }
+
+  function undoJs() {
+    const previousJs = jsHistory[jsHistory.length - 1];
+    if (previousJs !== undefined) {
+      setJsHistory((prevHistory) => prevHistory.slice(0, -1));
+      setJsRedoHistory((prevRedoHistory) => [...prevRedoHistory, js]);
+      setJs(previousJs);
+    }
+  }
+
+  function redoJs() {
+    const redoJsState = jsRedoHistory[jsRedoHistory.length - 1];
+    if (redoJsState !== undefined) {
+      setJsRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
+      setJsHistory((prevHistory) => [...prevHistory, js]);
+      setJs(redoJsState);
+    }
+  }
 
   return (
     <>
@@ -118,12 +198,12 @@ export default function Codepen({
               <p>HTML</p>
             </div>
             <div className="box-controls">
-              {/* <button title="Undo" onClick={() => ""}>
+              <button title="Undo" onClick={() => undoHtml()}>
                 <FontAwesomeIcon icon={faRotateLeft} />
               </button>
-              <button title="Redo" onClick={() => ""}>
+              <button title="Redo" onClick={() => redoHtml()}>
                 <FontAwesomeIcon icon={faRotateRight} />
-              </button> */}
+              </button>
               <button
                 title="Copy code"
                 onClick={() => navigator.clipboard.writeText(html)}
@@ -147,6 +227,7 @@ export default function Codepen({
               extensions={[htmlLanguage(), color]}
               onChange={(value) => {
                 setHtml(value);
+                updateHtmlHistory();
               }}
             />
           </div>
@@ -159,12 +240,12 @@ export default function Codepen({
               <p>CSS</p>
             </div>
             <div className="box-controls">
-              {/* <button title="Undo" onClick={() => ""}>
+              <button title="Undo" onClick={() => undoCss()}>
                 <FontAwesomeIcon icon={faRotateLeft} />
               </button>
-              <button title="Redo" onClick={() => ""}>
+              <button title="Redo" onClick={() => redoCss()}>
                 <FontAwesomeIcon icon={faRotateRight} />
-              </button> */}
+              </button>
               <button
                 title="Copy code"
                 onClick={() => navigator.clipboard.writeText(css)}
@@ -188,6 +269,7 @@ export default function Codepen({
               extensions={[cssLanguage(), color]}
               onChange={(value) => {
                 setCss(value);
+                updateCssHistory();
               }}
             />
           </div>
@@ -200,12 +282,12 @@ export default function Codepen({
               <p>JS</p>
             </div>
             <div className="box-controls">
-              {/* <button title="Undo" onClick={() => ""}>
+              <button title="Undo" onClick={() => undoJs()}>
                 <FontAwesomeIcon icon={faRotateLeft} />
               </button>
-              <button title="Redo" onClick={() => ""}>
+              <button title="Redo" onClick={() => redoJs()}>
                 <FontAwesomeIcon icon={faRotateRight} />
-              </button> */}
+              </button>
               <button
                 title="Copy code"
                 onClick={() => navigator.clipboard.writeText(js)}
@@ -229,6 +311,7 @@ export default function Codepen({
               extensions={[jsLanguage({ jsx: false }), color]}
               onChange={(value) => {
                 setJs(value);
+                updateJsHistory();
               }}
             />
           </div>
