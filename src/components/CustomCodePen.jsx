@@ -221,6 +221,9 @@ export default function Codepen({
     setHtml("");
     setCss("");
     setJs("");
+    updateHtmlHistory();
+    updateCssHistory();
+    updateJsHistory();
   };
 
   return (
