@@ -3,7 +3,7 @@ import { apiKey as configApiKey } from "./config.js";
 import promptContext from "./promptContext.js";
 import { HandleResponseFromAPI } from "./ResponseSpliter.jsx";
 
-export default async function CallAPI(prompt, apiKey) {
+export default async function CallAI(prompt, apiKey) {
   const API_KEY = configApiKey || apiKey;
   const openai = new OpenAI({ apiKey: API_KEY, dangerouslyAllowBrowser: true });
 

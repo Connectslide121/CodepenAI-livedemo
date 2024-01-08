@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "../style.css";
+
 import Codepen from "./CustomCodePen.jsx";
 import InputArea from "./InputArea.jsx";
 import Header from "./Header.jsx";
-import CallAPI from "./OpenaiAPI";
+import CallAI from "./OpenaiAPI";
+import SearchImages from "./Unsplash.jsx";
 import LoadingState from "./LoadingState.jsx";
 
 function App() {
@@ -30,7 +32,7 @@ function App() {
   const handleSubmit = (userMessage, apiKey) => {
     async function requestAPI() {
       setLoadingMessage("Generating code...");
-      const codeAI = await CallAPI(PromptBuilder(userMessage), apiKey);
+      const codeAI = await CallAI(PromptBuilder(userMessage), apiKey);
 
       const htmlCode = codeAI[0];
       const htmlCodeWithImages = await addImages(htmlCode);
@@ -41,16 +43,6 @@ function App() {
     }
     requestAPI();
   };
-
-  async function searchImages(query) {
-    const url = `https://api.unsplash.com/search/photos?page=${1}&query=${query}&client_id=${"HUBfBOYAY2krhsIhIpu7c0OgMgGPY3ru198GUXrXBy0"}`;
-
-    const response = await fetch(url);
-    const data = await response.json();
-    const results = data.results;
-
-    return results[0];
-  }
 
   const addImages = async (htmlCode) => {
     setLoadingMessage("Getting images...");
@@ -73,7 +65,7 @@ function App() {
           const altText = altTextMatch ? altTextMatch[1] : "";
 
           // Call the searchImages function and wait for the result
-          const imageObject = await searchImages(altText);
+          const imageObject = await SearchImages(altText);
 
           if (imageObject) {
             // Replace the src attribute in the matched image tag
@@ -98,6 +90,11 @@ function App() {
     }
   };
 
+  const updateImages = async (htmlToUpdate) => {
+    const updatedHtml = await addImages(htmlToUpdate);
+    setHtml(updatedHtml);
+  };
+
   return (
     <>
       <Header />
@@ -108,6 +105,7 @@ function App() {
         css={css}
         js={js}
         onCodeChange={handleCodeChangeFromUser}
+        updateImages={updateImages}
       />
     </>
   );

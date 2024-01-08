@@ -17,12 +17,14 @@ import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 
 export default function Codepen({
   html: htmlAI,
   css: cssAI,
   js: jsAI,
-  onCodeChange
+  onCodeChange,
+  updateImages
 }) {
   const [html, setHtml] = useState("");
   const [css, setCss] = useState("");
@@ -245,6 +247,12 @@ export default function Codepen({
               <p>HTML</p>
             </div>
             <div className="box-controls">
+              <button
+                title="Update images based on their 'alt' attribute"
+                onClick={() => updateImages(html)}
+              >
+                <FontAwesomeIcon icon={faArrowsRotate} /> Update images
+              </button>
               <button title="Undo" onClick={() => undoHtml()}>
                 <FontAwesomeIcon icon={faRotateLeft} />
               </button>
