@@ -34,11 +34,11 @@ export default function Codepen({
   const [htmlTheme, setHtmlTheme] = useState("dark");
   const [cssTheme, setCssTheme] = useState("dark");
   const [jsTheme, setJsTheme] = useState("dark");
-  const [htmlHistory, setHtmlHistory] = useState([]);
+  const [htmlUndoHistory, setHtmlUndoHistory] = useState([]);
   const [htmlRedoHistory, setHtmlRedoHistory] = useState([]);
-  const [cssHistory, setCssHistory] = useState([]);
+  const [cssUndoHistory, setCssUndoHistory] = useState([]);
   const [cssRedoHistory, setCssRedoHistory] = useState([]);
-  const [jsHistory, setJsHistory] = useState([]);
+  const [jsUndoHistory, setJsUndoHistory] = useState([]);
   const [jsRedoHistory, setJsRedoHistory] = useState([]);
 
   const updateOutput = useCallback(() => {
@@ -123,14 +123,14 @@ export default function Codepen({
   //********************* undo redo functions **************************/
 
   const updateHtmlHistory = () => {
-    setHtmlHistory((prevHistory) => [...prevHistory, html]);
+    setHtmlUndoHistory((prevHistory) => [...prevHistory, html]);
     setHtmlRedoHistory([]);
   };
 
   const undoHtml = () => {
-    const previousHtml = htmlHistory[htmlHistory.length - 1];
+    const previousHtml = htmlUndoHistory[htmlUndoHistory.length - 1];
     if (previousHtml !== undefined) {
-      setHtmlHistory((prevHistory) => prevHistory.slice(0, -1));
+      setHtmlUndoHistory((prevHistory) => prevHistory.slice(0, -1));
       setHtmlRedoHistory((prevRedoHistory) => [...prevRedoHistory, html]);
       setHtml(previousHtml);
     }
@@ -140,20 +140,20 @@ export default function Codepen({
     const redoHtmlState = htmlRedoHistory[htmlRedoHistory.length - 1];
     if (redoHtmlState !== undefined) {
       setHtmlRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
-      setHtmlHistory((prevHistory) => [...prevHistory, html]);
+      setHtmlUndoHistory((prevHistory) => [...prevHistory, html]);
       setHtml(redoHtmlState);
     }
   };
 
   const updateCssHistory = () => {
-    setCssHistory((prevHistory) => [...prevHistory, css]);
+    setCssUndoHistory((prevHistory) => [...prevHistory, css]);
     setCssRedoHistory([]);
   };
 
   const undoCss = () => {
-    const previousCss = cssHistory[cssHistory.length - 1];
+    const previousCss = cssUndoHistory[cssUndoHistory.length - 1];
     if (previousCss !== undefined) {
-      setCssHistory((prevHistory) => prevHistory.slice(0, -1));
+      setCssUndoHistory((prevHistory) => prevHistory.slice(0, -1));
       setCssRedoHistory((prevRedoHistory) => [...prevRedoHistory, css]);
       setCss(previousCss);
     }
@@ -163,20 +163,20 @@ export default function Codepen({
     const redoCssState = cssRedoHistory[cssRedoHistory.length - 1];
     if (redoCssState !== undefined) {
       setCssRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
-      setCssHistory((prevHistory) => [...prevHistory, css]);
+      setCssUndoHistory((prevHistory) => [...prevHistory, css]);
       setCss(redoCssState);
     }
   };
 
   const updateJsHistory = () => {
-    setJsHistory((prevHistory) => [...prevHistory, js]);
+    setJsUndoHistory((prevHistory) => [...prevHistory, js]);
     setJsRedoHistory([]);
   };
 
   const undoJs = () => {
-    const previousJs = jsHistory[jsHistory.length - 1];
+    const previousJs = jsUndoHistory[jsUndoHistory.length - 1];
     if (previousJs !== undefined) {
-      setJsHistory((prevHistory) => prevHistory.slice(0, -1));
+      setJsUndoHistory((prevHistory) => prevHistory.slice(0, -1));
       setJsRedoHistory((prevRedoHistory) => [...prevRedoHistory, js]);
       setJs(previousJs);
     }
@@ -186,7 +186,7 @@ export default function Codepen({
     const redoJsState = jsRedoHistory[jsRedoHistory.length - 1];
     if (redoJsState !== undefined) {
       setJsRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
-      setJsHistory((prevHistory) => [...prevHistory, js]);
+      setJsUndoHistory((prevHistory) => [...prevHistory, js]);
       setJs(redoJsState);
     }
   };
