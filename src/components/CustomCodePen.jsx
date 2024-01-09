@@ -18,17 +18,20 @@ import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import { faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 
 export default function Codepen({
-  html: htmlAI,
-  css: cssAI,
-  js: jsAI,
+  htmlCode: htmlAI,
+  cssCode: cssAI,
+  jsCode: jsAI,
   onCodeChange,
-  updateImages
+  updateImages,
+  saveProject
 }) {
-  const [html, setHtml] = useState("");
-  const [css, setCss] = useState("");
-  const [js, setJs] = useState("");
+  const [htmlCode, setHtml] = useState("");
+  const [cssCode, setCss] = useState("");
+  const [jsCode, setJs] = useState("");
   const [output, setOutput] = useState("");
   const [outputHeight, setOutputHeight] = useState("");
   const [htmlTheme, setHtmlTheme] = useState("dark");
@@ -40,6 +43,9 @@ export default function Codepen({
   const [cssRedoHistory, setCssRedoHistory] = useState([]);
   const [jsUndoHistory, setJsUndoHistory] = useState([]);
   const [jsRedoHistory, setJsRedoHistory] = useState([]);
+  const [projectUserId, setProjectUserId] = useState([]);
+  const [projectTitle, setProjectTitle] = useState([]);
+  const [projectDescription, setProjectDescription] = useState([]);
 
   const updateOutput = useCallback(() => {
     const iframe = document.querySelector(".output-frame");
@@ -48,11 +54,11 @@ export default function Codepen({
     const combinedOutput = `
         <html>
             <head>
-                <style>${css}</style>
+                <style>${cssCode}</style>
             </head>
             <body>
-                ${html}
-                <script>${js}</script>
+                ${htmlCode}
+                <script>${jsCode}</script>
             </body>
         </html>
     `;
@@ -71,15 +77,15 @@ export default function Codepen({
 
     // Notify the parent component about code changes
     const newCodeValue = `Current html: \n\
-    ${html}\n\
+    ${htmlCode}\n\
     \n\
     Current CSS: \n\
-    ${css}\n\
+    ${cssCode}\n\
     \n\
     Current Javascript: \n\
-    ${js}`;
+    ${jsCode}`;
     onCodeChange(newCodeValue);
-  }, [html, css, js, onCodeChange]);
+  }, [htmlCode, cssCode, jsCode, onCodeChange]);
 
   const toggleTheme = (language) => {
     switch (language) {
@@ -103,7 +109,7 @@ export default function Codepen({
       const iframe = document.querySelector(".output-frame");
       iframe.onload = null; // Clear the onLoad handler on component unmount
     };
-  }, [html, css, js, updateOutput]);
+  }, [htmlCode, cssCode, jsCode, updateOutput]);
 
   useEffect(() => {
     setHtml(htmlAI);
@@ -123,7 +129,7 @@ export default function Codepen({
   //********************* undo redo functions **************************/
 
   const updateHtmlHistory = () => {
-    setHtmlUndoHistory((prevHistory) => [...prevHistory, html]);
+    setHtmlUndoHistory((prevHistory) => [...prevHistory, htmlCode]);
     setHtmlRedoHistory([]);
   };
 
@@ -131,7 +137,7 @@ export default function Codepen({
     const previousHtml = htmlUndoHistory[htmlUndoHistory.length - 1];
     if (previousHtml !== undefined) {
       setHtmlUndoHistory((prevHistory) => prevHistory.slice(0, -1));
-      setHtmlRedoHistory((prevRedoHistory) => [...prevRedoHistory, html]);
+      setHtmlRedoHistory((prevRedoHistory) => [...prevRedoHistory, htmlCode]);
       setHtml(previousHtml);
     }
   };
@@ -140,13 +146,13 @@ export default function Codepen({
     const redoHtmlState = htmlRedoHistory[htmlRedoHistory.length - 1];
     if (redoHtmlState !== undefined) {
       setHtmlRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
-      setHtmlUndoHistory((prevHistory) => [...prevHistory, html]);
+      setHtmlUndoHistory((prevHistory) => [...prevHistory, htmlCode]);
       setHtml(redoHtmlState);
     }
   };
 
   const updateCssHistory = () => {
-    setCssUndoHistory((prevHistory) => [...prevHistory, css]);
+    setCssUndoHistory((prevHistory) => [...prevHistory, cssCode]);
     setCssRedoHistory([]);
   };
 
@@ -154,7 +160,7 @@ export default function Codepen({
     const previousCss = cssUndoHistory[cssUndoHistory.length - 1];
     if (previousCss !== undefined) {
       setCssUndoHistory((prevHistory) => prevHistory.slice(0, -1));
-      setCssRedoHistory((prevRedoHistory) => [...prevRedoHistory, css]);
+      setCssRedoHistory((prevRedoHistory) => [...prevRedoHistory, cssCode]);
       setCss(previousCss);
     }
   };
@@ -163,13 +169,13 @@ export default function Codepen({
     const redoCssState = cssRedoHistory[cssRedoHistory.length - 1];
     if (redoCssState !== undefined) {
       setCssRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
-      setCssUndoHistory((prevHistory) => [...prevHistory, css]);
+      setCssUndoHistory((prevHistory) => [...prevHistory, cssCode]);
       setCss(redoCssState);
     }
   };
 
   const updateJsHistory = () => {
-    setJsUndoHistory((prevHistory) => [...prevHistory, js]);
+    setJsUndoHistory((prevHistory) => [...prevHistory, jsCode]);
     setJsRedoHistory([]);
   };
 
@@ -177,7 +183,7 @@ export default function Codepen({
     const previousJs = jsUndoHistory[jsUndoHistory.length - 1];
     if (previousJs !== undefined) {
       setJsUndoHistory((prevHistory) => prevHistory.slice(0, -1));
-      setJsRedoHistory((prevRedoHistory) => [...prevRedoHistory, js]);
+      setJsRedoHistory((prevRedoHistory) => [...prevRedoHistory, jsCode]);
       setJs(previousJs);
     }
   };
@@ -186,7 +192,7 @@ export default function Codepen({
     const redoJsState = jsRedoHistory[jsRedoHistory.length - 1];
     if (redoJsState !== undefined) {
       setJsRedoHistory((prevRedoHistory) => prevRedoHistory.slice(0, -1));
-      setJsUndoHistory((prevHistory) => [...prevHistory, js]);
+      setJsUndoHistory((prevHistory) => [...prevHistory, jsCode]);
       setJs(redoJsState);
     }
   };
@@ -195,9 +201,9 @@ export default function Codepen({
 
   const downloadFolder = () => {
     const folderContent = {
-      "index.html": html,
-      "styles.css": css,
-      "script.js": js
+      "index.html": htmlCode,
+      "styles.css": cssCode,
+      "script.js": jsCode
     };
 
     const zip = new JSZip();
@@ -217,6 +223,41 @@ export default function Codepen({
     });
   };
 
+  //********************* save project **************************/
+
+  const handleProjectUserIdChange = (e) => {
+    setProjectUserId(`${e.target.value}`);
+  };
+
+  const handleProjectTitleChange = (e) => {
+    setProjectTitle(`${e.target.value}`);
+  };
+
+  const handleProjectDescriptionChange = (e) => {
+    setProjectDescription(`${e.target.value}`);
+  };
+
+  const handleSaveProject = (e) => {
+    e.preventDefault();
+    console.log(
+      "Props before passing:",
+      projectUserId,
+      projectTitle,
+      projectDescription,
+      htmlCode,
+      cssCode,
+      jsCode
+    );
+    saveProject(
+      projectUserId,
+      projectTitle,
+      projectDescription,
+      htmlCode,
+      cssCode,
+      jsCode
+    );
+  };
+
   //********************* clear project **************************/
 
   const clearProject = () => {
@@ -228,15 +269,62 @@ export default function Codepen({
     updateJsHistory();
   };
 
+  //********************* return **************************/
+
   return (
     <div className="codepen">
       <div className="codepen-header">
-        <button title="Download project zip" onClick={() => downloadFolder()}>
-          <FontAwesomeIcon icon={faDownload} /> Download project
+        <button title="Save project" onClick={() => {}}>
+          <FontAwesomeIcon icon={faFloppyDisk} /> Save project
+        </button>
+        <button title="Open project" onClick={() => {}}>
+          <FontAwesomeIcon icon={faFolderOpen} /> Open project
+        </button>
+        <button
+          title="Download zip file containing the three code files"
+          onClick={() => downloadFolder()}
+        >
+          <FontAwesomeIcon icon={faDownload} /> Download ZIP
         </button>
         <button title="Clear project" onClick={() => clearProject()}>
           <FontAwesomeIcon icon={faTrashCan} /> Clear project
         </button>
+      </div>
+      <div className="save-project-form">
+        <form onSubmit={handleSaveProject}>
+          <div className="userid-input">
+            <label htmlFor="userId">UserId</label>
+            <input
+              type="text"
+              name="userId"
+              id="userId"
+              value={projectUserId}
+              onChange={handleProjectUserIdChange}
+            />
+          </div>
+          <div className="title-input">
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value={projectTitle}
+              onChange={handleProjectTitleChange}
+            />
+          </div>
+          <div className="description-input">
+            <label htmlFor="description">Description</label>
+            <textarea
+              type="text"
+              name="description"
+              id="description"
+              rows={5}
+              value={projectDescription}
+              onChange={handleProjectDescriptionChange}
+            />
+          </div>
+          <button type="submit">Save project</button>
+        </form>
       </div>
       <div className="code-boxes">
         {/* html box*/}
@@ -249,7 +337,7 @@ export default function Codepen({
             <div className="box-controls">
               <button
                 title="Update images based on their 'alt' attribute"
-                onClick={() => updateImages(html)}
+                onClick={() => updateImages(htmlCode)}
               >
                 <FontAwesomeIcon icon={faArrowsRotate} /> Update images
               </button>
@@ -261,7 +349,7 @@ export default function Codepen({
               </button>
               <button
                 title="Copy code"
-                onClick={() => navigator.clipboard.writeText(html)}
+                onClick={() => navigator.clipboard.writeText(htmlCode)}
               >
                 <FontAwesomeIcon icon={faCopy} />
               </button>
@@ -282,7 +370,7 @@ export default function Codepen({
           <div>
             <CodeMirror
               className="htmlCodeBox"
-              value={html}
+              value={htmlCode}
               theme={htmlTheme}
               height="350px"
               extensions={[htmlLanguage(), color]}
@@ -309,7 +397,7 @@ export default function Codepen({
               </button>
               <button
                 title="Copy code"
-                onClick={() => navigator.clipboard.writeText(css)}
+                onClick={() => navigator.clipboard.writeText(cssCode)}
               >
                 <FontAwesomeIcon icon={faCopy} />
               </button>
@@ -330,7 +418,7 @@ export default function Codepen({
           <div>
             <CodeMirror
               className="cssCodeBox"
-              value={css}
+              value={cssCode}
               theme={cssTheme}
               height="350px"
               extensions={[cssLanguage(), color]}
@@ -357,7 +445,7 @@ export default function Codepen({
               </button>
               <button
                 title="Copy code"
-                onClick={() => navigator.clipboard.writeText(js)}
+                onClick={() => navigator.clipboard.writeText(jsCode)}
               >
                 <FontAwesomeIcon icon={faCopy} />
               </button>
@@ -378,7 +466,7 @@ export default function Codepen({
           <div>
             <CodeMirror
               className="jsCodeBox"
-              value={js}
+              value={jsCode}
               theme={jsTheme}
               height="350px"
               extensions={[jsLanguage({ jsx: false }), color]}

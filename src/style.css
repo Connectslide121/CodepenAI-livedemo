@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -111,6 +112,64 @@ body {
 }
 
 .codepen-header button:active {
+  background: #33363f;
+}
+
+.save-project-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 40%;
+  margin: 20px auto;
+  transition: display 0.5s ease-in-out;
+}
+
+.save-project-form form label {
+  color: gray;
+  flex-basis: 15%;
+}
+
+.save-project-form form input,
+.save-project-form form textarea {
+  padding: 5px;
+  color: gray;
+  background: #252525;
+  border: 1px solid #525050;
+  font-size: 16px;
+  color: #d0d0d0;
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  flex-basis: 85%;
+}
+
+.userid-input,
+.title-input,
+.description-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.save-project-form form button {
+  padding: 5px;
+  margin: 6px;
+  width: 200px;
+  color: gray;
+  background: #252525;
+  border: 1px solid #525050;
+  font-size: 16px;
+}
+
+.save-project-form form button:hover {
+  background: #131417;
+  border: 1px solid #797878;
+  cursor: pointer;
+}
+
+.save-project-form form button:active {
   background: #33363f;
 }
 

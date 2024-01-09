@@ -22,7 +22,7 @@ export default function InputArea({ onUserSubmit }) {
   useEffect(() => {
     const textarea = document.getElementById("input");
     textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight - 20}px`; // Set height based on content
+    textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on content
   }, [inputValue]);
 
   return (

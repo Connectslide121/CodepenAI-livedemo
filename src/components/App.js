@@ -4,9 +4,10 @@ import "../style.css";
 import Codepen from "./CustomCodePen.jsx";
 import InputArea from "./InputArea.jsx";
 import Header from "./Header.jsx";
-import CallAI from "./OpenaiAPI";
+import CallAI from "./Openai.jsx";
 import SearchImages from "./Unsplash.jsx";
 import LoadingState from "./LoadingState.jsx";
+import { CreateProject } from "./API.jsx";
 
 function App() {
   const [html, setHtml] = useState("");
@@ -85,7 +86,6 @@ function App() {
       return finalHtml;
     } else {
       setLoadingMessage("");
-      // If there are no matches, return the original HTML code
       return htmlCode;
     }
   };
@@ -95,17 +95,45 @@ function App() {
     setHtml(updatedHtml);
   };
 
+  const handleCreateProject = (
+    projectUserId,
+    projectTitle,
+    projectDescription,
+    htmlCode,
+    cssCode,
+    jsCode
+  ) => {
+    console.log(
+      "Props after passing:",
+      projectUserId,
+      projectTitle,
+      projectDescription,
+      htmlCode,
+      cssCode,
+      jsCode
+    );
+    CreateProject(
+      projectUserId,
+      projectTitle,
+      projectDescription,
+      htmlCode,
+      cssCode,
+      jsCode
+    );
+  };
+
   return (
     <>
       <Header />
       <InputArea onUserSubmit={handleSubmit} />
       <LoadingState message={loadingMessage} />
       <Codepen
-        html={html}
-        css={css}
-        js={js}
+        htmlCode={html}
+        cssCode={css}
+        jsCode={js}
         onCodeChange={handleCodeChangeFromUser}
         updateImages={updateImages}
+        saveProject={handleCreateProject}
       />
     </>
   );
