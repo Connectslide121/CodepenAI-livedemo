@@ -37,11 +37,13 @@ function App() {
       const codeAI = await CallAI(PromptBuilder(userMessage), apiKey);
 
       const htmlCode = codeAI[0];
+      setLoadingMessage("Getting images...");
       const htmlCodeWithImages = await addImages(htmlCode);
 
       setHtml(htmlCodeWithImages);
       setCss(codeAI[1]);
       setJs(codeAI[2]);
+      setLoadingMessage("");
     }
     requestAPI();
   };
@@ -49,8 +51,8 @@ function App() {
   const updateImages = async (htmlToUpdate) => {
     setLoadingMessage("Getting images...");
     const updatedHtml = await addImages(htmlToUpdate);
-    setHtml(updatedHtml);
     setLoadingMessage("");
+    setHtml(updatedHtml);
   };
 
   return (

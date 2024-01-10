@@ -40,7 +40,7 @@ export default function InputArea({ onUserSubmit }) {
                 placeholder="Insert a valid openAI API key"
                 value={apiKey}
                 onChange={handleApiKeyChange}
-                required
+                // required
               ></textarea>
             </div>
             <div className="user-message-input">
