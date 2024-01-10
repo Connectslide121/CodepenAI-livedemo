@@ -106,7 +106,8 @@ body {
   font-size: 16px;
 }
 
-.codepen-header button:hover {
+.codepen-header button:hover,
+.codepen-header select:hover {
   background: #131417;
   border: 1px solid #797878;
   cursor: pointer;
