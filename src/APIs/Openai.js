@@ -1,7 +1,7 @@
 import OpenAI from "openai";
-import { apiKey as configApiKey } from "./config.js";
-import promptContext from "./promptContext.js";
-import { HandleResponseFromAPI } from "./ResponseSpliter.jsx";
+import { apiKey as configApiKey } from "../functions/config.js";
+import promptContext from "../functions/promptContext.js";
+import { HandleResponseFromAPI } from "../functions/ResponseSpliter.js";
 
 export default async function CallAI(prompt, apiKey) {
   const API_KEY = configApiKey || apiKey;

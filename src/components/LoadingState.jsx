@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactComponent as Spinner } from "./spinner.svg";
+import { ReactComponent as Spinner } from "../images/spinner.svg";
 
 export default function LoadingState({ message }) {
   return (
