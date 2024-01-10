@@ -116,7 +116,7 @@ body {
   background: #33363f;
 }
 
-.save-button-active {
+.header-button-active {
   padding: 5px;
   margin: 6px;
   width: 200px;
@@ -181,6 +181,62 @@ body {
 
 .save-project-form form button:active {
   background: #33363f;
+}
+
+.project-list-wrapper {
+  color: #797878;
+  width: 60%;
+  margin: 0 auto 30px;
+}
+
+.project-list-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.project-list-header div {
+  padding: 6px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.project-list-wrapper ul {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.project-list-wrapper ul li {
+  display: flex;
+  justify-content: space-between;
+  background: #252525;
+  padding: 10px;
+  border-radius: 6px;
+  border: solid 1px #252525;
+}
+
+.project-list-wrapper ul li:hover {
+  border: solid 1px #525050;
+  background: #131417;
+  cursor: pointer;
+}
+
+.project-list-wrapper ul li div {
+  text-align: center;
+}
+
+.project-title {
+  width: 18%;
+}
+
+.project-description {
+  width: 60%;
+}
+
+.project-date {
+  width: 18%;
 }
 
 .code-boxes {

@@ -12,11 +12,16 @@ export function CreateProject(props) {
       totalTokens: 0,
       totalMoney: 0
     })
-    .then(function (response) {
-      console.log("Project saved: ", response);
-    })
     .catch(function (error) {
-      console.log("Error creating project:", error);
+      alert("Error saving project, there is no connection to the server");
+      console.log("Error saving project:", error);
     });
-  //   console.log(props);
+}
+
+export async function GetProjects() {
+  const response = await axios.get("api/Projects/all").catch(function (error) {
+    alert("Error fetching projects, there is no connection to the server");
+    console.log("Error fetching projects:", error);
+  });
+  return response.data;
 }

@@ -5,8 +5,10 @@ import { color } from "@uiw/codemirror-extensions-color";
 import { html as htmlLanguage } from "@codemirror/lang-html";
 import { css as cssLanguage } from "@codemirror/lang-css";
 import { javascript as jsLanguage } from "@codemirror/lang-javascript";
+import * as themes from "@uiw/codemirror-themes-all";
 
 import SaveProjectForm from "./SaveProjectForm";
+import OpenProjectList from "./OpenProjectList";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHtml5 } from "@fortawesome/free-brands-svg-icons";
@@ -36,9 +38,7 @@ export default function Codepen({
   const [jsCode, setJs] = useState("");
   const [output, setOutput] = useState("");
   const [outputHeight, setOutputHeight] = useState("");
-  const [htmlTheme, setHtmlTheme] = useState("dark");
-  const [cssTheme, setCssTheme] = useState("dark");
-  const [jsTheme, setJsTheme] = useState("dark");
+  const [theme, setTheme] = useState("dark");
   const [htmlUndoHistory, setHtmlUndoHistory] = useState([]);
   const [htmlRedoHistory, setHtmlRedoHistory] = useState([]);
   const [cssUndoHistory, setCssUndoHistory] = useState([]);
@@ -46,6 +46,7 @@ export default function Codepen({
   const [jsUndoHistory, setJsUndoHistory] = useState([]);
   const [jsRedoHistory, setJsRedoHistory] = useState([]);
   const [showSaveProjectForm, setShowSaveProjectForm] = useState(false);
+  const [showOpenProjectList, setShowOpenProjectList] = useState(false);
 
   const updateOutput = useCallback(() => {
     const iframe = document.querySelector(".output-frame");
@@ -86,22 +87,6 @@ export default function Codepen({
     ${jsCode}`;
     onCodeChange(newCodeValue);
   }, [htmlCode, cssCode, jsCode, onCodeChange]);
-
-  const toggleTheme = (language) => {
-    switch (language) {
-      case "html":
-        setHtmlTheme(htmlTheme === "dark" ? "light" : "dark");
-        break;
-      case "css":
-        setCssTheme(cssTheme === "dark" ? "light" : "dark");
-        break;
-      case "js":
-        setJsTheme(jsTheme === "dark" ? "light" : "dark");
-        break;
-      default:
-        break;
-    }
-  };
 
   useEffect(() => {
     updateOutput();
@@ -227,10 +212,11 @@ export default function Codepen({
 
   const handleSaveProjectButtonClick = () => {
     setShowSaveProjectForm((visible) => !visible);
+    setShowOpenProjectList(false);
   };
 
   const saveButtonClass = showSaveProjectForm
-    ? "save-button-active"
+    ? "header-button-active"
     : "codepen-header-button";
 
   const handleSaveProject = (projectTitle, projectDescription) => {
@@ -244,6 +230,16 @@ export default function Codepen({
     saveProject(props);
   };
 
+  //********************* open projects **************************/
+  const handleOpenProjectsButtonClick = () => {
+    setShowOpenProjectList((prevValue) => !prevValue);
+    setShowSaveProjectForm(false);
+  };
+
+  const openButtonClass = showOpenProjectList
+    ? "header-button-active"
+    : "codepen-header-button";
+
   //********************* clear project **************************/
 
   const clearProject = () => {
@@ -253,6 +249,15 @@ export default function Codepen({
     updateHtmlHistory();
     updateCssHistory();
     updateJsHistory();
+  };
+
+  //********************* select theme **************************/
+
+  const handleThemeChange = (e) => {
+    const themeName = e.target.value;
+    if (themeName == "dark") {
+      setTheme("dark");
+    } else setTheme(themes[themeName]);
   };
 
   //********************* return **************************/
@@ -269,8 +274,8 @@ export default function Codepen({
         </button>
         <button
           title="Open project"
-          onClick={() => {}}
-          className="codepen-header-button"
+          onClick={() => handleOpenProjectsButtonClick()}
+          className={openButtonClass}
         >
           <FontAwesomeIcon icon={faFolderOpen} /> Open project
         </button>
@@ -288,10 +293,61 @@ export default function Codepen({
         >
           <FontAwesomeIcon icon={faTrashCan} /> Clear project
         </button>
+        <select
+          name="Select theme"
+          className="codepen-header-button"
+          onChange={handleThemeChange}
+        >
+          <option value="dark">Default Dark theme</option>
+          <option value="light">Default Light theme</option>
+          <option value="abcdef">Abcdef theme</option>
+          <option value="abyss">Abyss theme</option>
+          <option value="androidstudio">AndroidStudio theme</option>
+          <option value="andromeda">Andromeda theme</option>
+          <option value="atomome">Atomome theme</option>
+          <option value="aura">Aura theme</option>
+          <option value="basicLight">Basic Light theme</option>
+          <option value="basicDark">Basic Dark theme</option>
+          <option value="bbedit">Bbedit theme</option>
+          <option value="bespin">Bespin theme</option>
+          <option value="copilot">Copilot theme</option>
+          <option value="darcula">Darcula theme</option>
+          <option value="dracula">Dracula theme</option>
+          <option value="duotoneLight">Duotone Light theme</option>
+          <option value="duotoneDark">Duotone Dark theme</option>
+          <option value="eclipse">Eclipse Theme</option>
+          <option value="githubLight">Github Light theme</option>
+          <option value="githubDark">Github Dark theme</option>
+          <option value="gruvboxDark">Gruvbox Dark theme</option>
+          <option value="gruvboxLight">Gruvbox Light theme</option>
+          <option value="kimbie">Kimbie theme</option>
+          <option value="materialLight">Material Light theme</option>
+          <option value="materialDark">Material Dark theme</option>
+          <option value="monokai">Monokai theme</option>
+          <option value="monokaiDimmed">Monokai Dimmed theme</option>
+          <option value="noctisLilac">Noctis Lilac theme</option>
+          <option value="nord">Nord theme</option>
+          <option value="okaidia">Okaidia theme</option>
+          <option value="red">Red theme</option>
+          <option value="quietlight">Quietlight theme</option>
+          <option value="solarizedLight">Solarized Light theme</option>
+          <option value="solarizedDark">Solarized Dark theme</option>
+          <option value="sublime">Sublime theme</option>
+          <option value="tokyoNight">Tokyo Night theme</option>
+          <option value="tokyoNightStorm">Tokyo Night Storm theme</option>
+          <option value="tokyoNightDay">Tokyo Night Day theme</option>
+          <option value="tomorrowNightBlue">Tomorrow Night Blue theme</option>
+          <option value="vscodeDark">Vscode Dark theme</option>
+          <option value="whiteLight">White Light theme</option>
+          <option value="whiteDark">White Dark theme</option>
+          <option value="xcodeLight">Xcode Light theme</option>
+          <option value="xcodeDark">Xcode Dark theme</option>
+        </select>
       </div>
       {showSaveProjectForm && (
         <SaveProjectForm handleSaveProject={handleSaveProject} />
       )}
+      {showOpenProjectList && <OpenProjectList />}
       <div className="code-boxes">
         {/* html box*/}
         <div className="code-box html-box">
@@ -328,16 +384,13 @@ export default function Codepen({
               >
                 <FontAwesomeIcon icon={faTrashCan} />
               </button>
-              <button title="Toggle theme" onClick={() => toggleTheme("html")}>
-                <FontAwesomeIcon icon={faPalette} />
-              </button>{" "}
             </div>
           </div>
           <div>
             <CodeMirror
               className="htmlCodeBox"
               value={htmlCode}
-              theme={htmlTheme}
+              theme={theme}
               height="350px"
               extensions={[htmlLanguage(), color]}
               onChange={(value) => {
@@ -376,16 +429,13 @@ export default function Codepen({
               >
                 <FontAwesomeIcon icon={faTrashCan} />
               </button>
-              <button title="Toggle theme" onClick={() => toggleTheme("css")}>
-                <FontAwesomeIcon icon={faPalette} />
-              </button>{" "}
             </div>
           </div>
           <div>
             <CodeMirror
               className="cssCodeBox"
               value={cssCode}
-              theme={cssTheme}
+              theme={theme}
               height="350px"
               extensions={[cssLanguage(), color]}
               onChange={(value) => {
@@ -424,16 +474,13 @@ export default function Codepen({
               >
                 <FontAwesomeIcon icon={faTrashCan} />
               </button>
-              <button title="Toggle theme" onClick={() => toggleTheme("js")}>
-                <FontAwesomeIcon icon={faPalette} />
-              </button>{" "}
             </div>
           </div>
           <div>
             <CodeMirror
               className="jsCodeBox"
               value={jsCode}
-              theme={jsTheme}
+              theme={theme}
               height="350px"
               extensions={[jsLanguage({ jsx: false }), color]}
               onChange={(value) => {

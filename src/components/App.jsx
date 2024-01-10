@@ -8,7 +8,7 @@ import CallAI from "../APIs/Openai.js";
 import LoadingState from "./LoadingState.jsx";
 
 import { addImages } from "../functions/ImageAttatcher.js";
-import { CreateProject } from "../APIs/API.js";
+import { CreateProject, GetProjects } from "../APIs/API.js";
 
 function App() {
   const [html, setHtml] = useState("");
@@ -51,8 +51,8 @@ function App() {
   const updateImages = async (htmlToUpdate) => {
     setLoadingMessage("Getting images...");
     const updatedHtml = await addImages(htmlToUpdate);
-    setLoadingMessage("");
     setHtml(updatedHtml);
+    setLoadingMessage("");
   };
 
   return (
@@ -67,6 +67,7 @@ function App() {
         onCodeChange={handleCodeChangeFromUser}
         updateImages={updateImages}
         saveProject={CreateProject}
+        openProjects={GetProjects}
       />
     </>
   );
