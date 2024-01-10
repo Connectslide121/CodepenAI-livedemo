@@ -275,10 +275,12 @@ body {
 }
 
 .code-boxes {
+  position: relative;
   display: flex;
   justify-content: center;
   gap: 5px;
   width: 100%;
+  z-index: 100;
 }
 
 .code-box {
