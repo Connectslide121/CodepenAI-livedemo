@@ -271,11 +271,11 @@ body {
 
 .delete-project-button {
   margin-left: 15px;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, color 0.5s ease;
 }
 
 .delete-project-button:hover {
-  color: #e4454b;
+  color: #ffffff;
   cursor: pointer;
   transform: scale(1.2);
 }
