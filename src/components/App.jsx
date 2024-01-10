@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactGA from "react-ga";
 import "../style.css";
 
 import Codepen from "./CustomCodePen.jsx";
@@ -9,6 +10,9 @@ import LoadingState from "./LoadingState.jsx";
 
 import { addImages } from "../functions/ImageAttatcher.js";
 import { CreateProject, GetProjects } from "../APIs/API.js";
+
+const trackingID = "G-VF2P86QY5Q";
+ReactGA.initialize(trackingID);
 
 function App() {
   const [html, setHtml] = useState("");

@@ -109,6 +109,7 @@ body {
 .codepen-header button:hover,
 .codepen-header select:hover {
   background: #131417;
+  color: #b1b1b1;
   border: 1px solid #797878;
   cursor: pointer;
 }
@@ -125,6 +126,25 @@ body {
   background: #33363f;
   border: 1px solid #525050;
   font-size: 16px;
+}
+
+.save-project-form-dropdown,
+.open-project-list-dropdown {
+  position: relative;
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 0.5s ease, max-height 0.5s ease;
+  z-index: 1;
+}
+
+.save-project-form-dropdown.active,
+.open-project-list-dropdown.active {
+  opacity: 1;
+  max-height: 5000px;
+}
+
+.open-project-list-dropdown.active {
+  z-index: 2; /* Set a higher z-index than the other dropdown */
 }
 
 .save-project-form form {
@@ -201,6 +221,11 @@ body {
   text-align: center;
   font-weight: bold;
   font-size: 18px;
+  color: #b1b1b1;
+}
+
+.project-list-header .spacer {
+  width: 6%;
 }
 
 .project-list-wrapper ul {
@@ -220,7 +245,8 @@ body {
 
 .project-list-wrapper ul li:hover {
   border: solid 1px #525050;
-  background: #131417;
+  color: #b1b1b1;
+  background: #373737;
   cursor: pointer;
 }
 
@@ -229,15 +255,23 @@ body {
 }
 
 .project-title {
-  width: 18%;
+  width: 20%;
 }
 
 .project-description {
-  width: 60%;
+  width: 50%;
 }
 
 .project-date {
-  width: 18%;
+  width: 20%;
+}
+
+.delete-project-button {
+  width: 5%;
+}
+
+.delete-project-button:hover {
+  color: #e4454b;
 }
 
 .code-boxes {

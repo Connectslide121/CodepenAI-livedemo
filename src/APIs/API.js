@@ -25,3 +25,8 @@ export async function GetProjects() {
   });
   return response.data;
 }
+
+export async function GetProjectById(projectId) {
+  const response = await axios.get(`api/Projects/project/${projectId}`);
+  return response.data;
+}

@@ -9,6 +9,7 @@ import * as themes from "@uiw/codemirror-themes-all";
 
 import SaveProjectForm from "./SaveProjectForm";
 import OpenProjectList from "./OpenProjectList";
+import { GetProjectById } from "../APIs/API";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHtml5 } from "@fortawesome/free-brands-svg-icons";
@@ -231,6 +232,7 @@ export default function Codepen({
   };
 
   //********************* open projects **************************/
+
   const handleOpenProjectsButtonClick = () => {
     setShowOpenProjectList((prevValue) => !prevValue);
     setShowSaveProjectForm(false);
@@ -239,6 +241,17 @@ export default function Codepen({
   const openButtonClass = showOpenProjectList
     ? "header-button-active"
     : "codepen-header-button";
+
+  const openProjectById = async (projectId) => {
+    const projectData = await GetProjectById(projectId);
+    setHtml(projectData.htmlCode);
+    setCss(projectData.cssCode);
+    setJs(projectData.jsCode);
+    setShowOpenProjectList(false);
+    setHtmlUndoHistory([]);
+    setCssUndoHistory([]);
+    setJsUndoHistory([]);
+  };
 
   //********************* clear project **************************/
 
@@ -291,7 +304,7 @@ export default function Codepen({
           onClick={() => clearProject()}
           className="codepen-header-button"
         >
-          <FontAwesomeIcon icon={faTrashCan} /> Clear project
+          <FontAwesomeIcon icon={faTrashCan} /> Clear code
         </button>
         <select
           name="Select theme"
@@ -344,10 +357,20 @@ export default function Codepen({
           <option value="xcodeDark">Xcode Dark theme</option>
         </select>
       </div>
-      {showSaveProjectForm && (
+      <div
+        className={`save-project-form-dropdown ${
+          showSaveProjectForm ? "active" : ""
+        }`}
+      >
         <SaveProjectForm handleSaveProject={handleSaveProject} />
-      )}
-      {showOpenProjectList && <OpenProjectList />}
+      </div>
+      <div
+        className={`open-project-list-dropdown ${
+          showOpenProjectList ? "active" : ""
+        }`}
+      >
+        <OpenProjectList openProject={openProjectById} />
+      </div>
       <div className="code-boxes">
         {/* html box*/}
         <div className="code-box html-box">

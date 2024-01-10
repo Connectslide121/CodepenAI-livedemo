@@ -44,7 +44,7 @@ export default function InputArea({ onUserSubmit }) {
               ></textarea>
             </div>
             <div className="user-message-input">
-              <label htmlFor="input">Message</label>
+              <label htmlFor="input">Prompt</label>
               <textarea
                 autoFocus
                 id="input"
