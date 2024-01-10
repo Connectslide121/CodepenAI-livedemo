@@ -93,9 +93,10 @@ body {
 .codepen-header {
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
-.codepen-header button {
+.codepen-header-button {
   padding: 5px;
   margin: 6px;
   width: 200px;
@@ -115,6 +116,16 @@ body {
   background: #33363f;
 }
 
+.save-button-active {
+  padding: 5px;
+  margin: 6px;
+  width: 200px;
+  color: gray;
+  background: #33363f;
+  border: 1px solid #525050;
+  font-size: 16px;
+}
+
 .save-project-form form {
   display: flex;
   flex-direction: column;
@@ -122,7 +133,6 @@ body {
   gap: 10px;
   width: 40%;
   margin: 20px auto;
-  transition: display 0.5s ease-in-out;
 }
 
 .save-project-form form label {

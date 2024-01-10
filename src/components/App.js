@@ -95,33 +95,6 @@ function App() {
     setHtml(updatedHtml);
   };
 
-  const handleCreateProject = (
-    projectUserId,
-    projectTitle,
-    projectDescription,
-    htmlCode,
-    cssCode,
-    jsCode
-  ) => {
-    console.log(
-      "Props after passing:",
-      projectUserId,
-      projectTitle,
-      projectDescription,
-      htmlCode,
-      cssCode,
-      jsCode
-    );
-    CreateProject(
-      projectUserId,
-      projectTitle,
-      projectDescription,
-      htmlCode,
-      cssCode,
-      jsCode
-    );
-  };
-
   return (
     <>
       <Header />
@@ -133,7 +106,7 @@ function App() {
         jsCode={js}
         onCodeChange={handleCodeChangeFromUser}
         updateImages={updateImages}
-        saveProject={handleCreateProject}
+        saveProject={CreateProject}
       />
     </>
   );

@@ -6,6 +6,8 @@ import { html as htmlLanguage } from "@codemirror/lang-html";
 import { css as cssLanguage } from "@codemirror/lang-css";
 import { javascript as jsLanguage } from "@codemirror/lang-javascript";
 
+import SaveProjectForm from "./SaveProjectForm";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHtml5 } from "@fortawesome/free-brands-svg-icons";
 import { faCss3Alt } from "@fortawesome/free-brands-svg-icons";
@@ -43,9 +45,7 @@ export default function Codepen({
   const [cssRedoHistory, setCssRedoHistory] = useState([]);
   const [jsUndoHistory, setJsUndoHistory] = useState([]);
   const [jsRedoHistory, setJsRedoHistory] = useState([]);
-  const [projectUserId, setProjectUserId] = useState([]);
-  const [projectTitle, setProjectTitle] = useState([]);
-  const [projectDescription, setProjectDescription] = useState([]);
+  const [showSaveProjectForm, setShowSaveProjectForm] = useState(false);
 
   const updateOutput = useCallback(() => {
     const iframe = document.querySelector(".output-frame");
@@ -225,37 +225,23 @@ export default function Codepen({
 
   //********************* save project **************************/
 
-  const handleProjectUserIdChange = (e) => {
-    setProjectUserId(`${e.target.value}`);
+  const handleSaveProjectButtonClick = () => {
+    setShowSaveProjectForm((visible) => !visible);
   };
 
-  const handleProjectTitleChange = (e) => {
-    setProjectTitle(`${e.target.value}`);
-  };
+  const saveButtonClass = showSaveProjectForm
+    ? "save-button-active"
+    : "codepen-header-button";
 
-  const handleProjectDescriptionChange = (e) => {
-    setProjectDescription(`${e.target.value}`);
-  };
-
-  const handleSaveProject = (e) => {
-    e.preventDefault();
-    console.log(
-      "Props before passing:",
-      projectUserId,
+  const handleSaveProject = (projectTitle, projectDescription) => {
+    const props = {
       projectTitle,
       projectDescription,
       htmlCode,
       cssCode,
       jsCode
-    );
-    saveProject(
-      projectUserId,
-      projectTitle,
-      projectDescription,
-      htmlCode,
-      cssCode,
-      jsCode
-    );
+    };
+    saveProject(props);
   };
 
   //********************* clear project **************************/
@@ -274,58 +260,38 @@ export default function Codepen({
   return (
     <div className="codepen">
       <div className="codepen-header">
-        <button title="Save project" onClick={() => {}}>
+        <button
+          title="Save project"
+          onClick={handleSaveProjectButtonClick}
+          className={saveButtonClass}
+        >
           <FontAwesomeIcon icon={faFloppyDisk} /> Save project
         </button>
-        <button title="Open project" onClick={() => {}}>
+        <button
+          title="Open project"
+          onClick={() => {}}
+          className="codepen-header-button"
+        >
           <FontAwesomeIcon icon={faFolderOpen} /> Open project
         </button>
         <button
           title="Download zip file containing the three code files"
           onClick={() => downloadFolder()}
+          className="codepen-header-button"
         >
           <FontAwesomeIcon icon={faDownload} /> Download ZIP
         </button>
-        <button title="Clear project" onClick={() => clearProject()}>
+        <button
+          title="Clear project"
+          onClick={() => clearProject()}
+          className="codepen-header-button"
+        >
           <FontAwesomeIcon icon={faTrashCan} /> Clear project
         </button>
       </div>
-      <div className="save-project-form">
-        <form onSubmit={handleSaveProject}>
-          <div className="userid-input">
-            <label htmlFor="userId">UserId</label>
-            <input
-              type="text"
-              name="userId"
-              id="userId"
-              value={projectUserId}
-              onChange={handleProjectUserIdChange}
-            />
-          </div>
-          <div className="title-input">
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              value={projectTitle}
-              onChange={handleProjectTitleChange}
-            />
-          </div>
-          <div className="description-input">
-            <label htmlFor="description">Description</label>
-            <textarea
-              type="text"
-              name="description"
-              id="description"
-              rows={5}
-              value={projectDescription}
-              onChange={handleProjectDescriptionChange}
-            />
-          </div>
-          <button type="submit">Save project</button>
-        </form>
-      </div>
+      {showSaveProjectForm && (
+        <SaveProjectForm handleSaveProject={handleSaveProject} />
+      )}
       <div className="code-boxes">
         {/* html box*/}
         <div className="code-box html-box">
