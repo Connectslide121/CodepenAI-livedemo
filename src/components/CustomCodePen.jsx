@@ -9,7 +9,7 @@ import * as themes from "@uiw/codemirror-themes-all";
 
 import SaveProjectForm from "./SaveProjectForm";
 import OpenProjectList from "./OpenProjectList";
-import { GetProjectById } from "../APIs/API";
+import { GetProjectById, RemoveProjectById } from "../APIs/API";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHtml5 } from "@fortawesome/free-brands-svg-icons";
@@ -48,6 +48,7 @@ export default function Codepen({
   const [jsRedoHistory, setJsRedoHistory] = useState([]);
   const [showSaveProjectForm, setShowSaveProjectForm] = useState(false);
   const [showOpenProjectList, setShowOpenProjectList] = useState(false);
+  const [rerenderKey, setRerenderKey] = useState(0);
 
   const updateOutput = useCallback(() => {
     const iframe = document.querySelector(".output-frame");
@@ -220,7 +221,7 @@ export default function Codepen({
     ? "header-button-active"
     : "codepen-header-button";
 
-  const handleSaveProject = (projectTitle, projectDescription) => {
+  const handleSaveProject = async (projectTitle, projectDescription) => {
     const props = {
       projectTitle,
       projectDescription,
@@ -228,7 +229,8 @@ export default function Codepen({
       cssCode,
       jsCode
     };
-    saveProject(props);
+    await saveProject(props);
+    setRerenderKey((prevKey) => prevKey + 1);
   };
 
   //********************* open projects **************************/
@@ -251,6 +253,13 @@ export default function Codepen({
     setHtmlUndoHistory([]);
     setCssUndoHistory([]);
     setJsUndoHistory([]);
+  };
+
+  //********************* delete project **************************/
+
+  const deleteProjectById = (projectId) => {
+    RemoveProjectById(projectId);
+    setRerenderKey((prevKey) => prevKey + 1);
   };
 
   //********************* clear project **************************/
@@ -369,7 +378,11 @@ export default function Codepen({
           showOpenProjectList ? "active" : ""
         }`}
       >
-        <OpenProjectList openProject={openProjectById} />
+        <OpenProjectList
+          openProject={openProjectById}
+          deleteProject={deleteProjectById}
+          rerenderKey={rerenderKey}
+        />
       </div>
       <div className="code-boxes">
         {/* html box*/}

@@ -13,7 +13,7 @@ export default function OpenProjectList(props) {
     };
 
     fetchData();
-  }, []);
+  }, [props.rerenderKey]);
 
   const formatDate = (dateString) => {
     const options = { day: "numeric", month: "long", year: "numeric" };
@@ -32,20 +32,26 @@ export default function OpenProjectList(props) {
 
         <ul>
           {projectList.map((project) => (
-            <li
-              title="Open project"
-              key={project.projectId}
-              onClick={() => props.openProject(project.projectId)}
-            >
-              <div className="project-title">{project.title}</div>
-              <div className="project-description">{project.description}</div>
-              <div className="project-date">
-                {formatDate(project.createdAt)}
-              </div>
-              <div title="Delete project" className="delete-project-button">
+            <div className="project-list-item">
+              <li
+                title="Open project"
+                key={project.projectId}
+                onClick={() => props.openProject(project.projectId)}
+              >
+                <div className="project-title">{project.title}</div>
+                <div className="project-description">{project.description}</div>
+                <div className="project-date">
+                  {formatDate(project.createdAt)}
+                </div>
+              </li>
+              <div
+                title="Delete project"
+                className="delete-project-button"
+                onClick={() => props.deleteProject(project.projectId)}
+              >
                 <FontAwesomeIcon icon={faTrashCan} />
               </div>
-            </li>
+            </div>
           ))}
         </ul>
       </div>

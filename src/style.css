@@ -224,14 +224,16 @@ body {
   color: #b1b1b1;
 }
 
-.project-list-header .spacer {
-  width: 6%;
-}
-
 .project-list-wrapper ul {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.project-list-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 
 .project-list-wrapper ul li {
@@ -241,6 +243,7 @@ body {
   padding: 10px;
   border-radius: 6px;
   border: solid 1px #252525;
+  width: 100%;
 }
 
 .project-list-wrapper ul li:hover {
@@ -267,11 +270,14 @@ body {
 }
 
 .delete-project-button {
-  width: 5%;
+  margin-left: 15px;
+  transition: transform 0.2s ease;
 }
 
 .delete-project-button:hover {
   color: #e4454b;
+  cursor: pointer;
+  transform: scale(1.2);
 }
 
 .code-boxes {

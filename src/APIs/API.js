@@ -30,3 +30,8 @@ export async function GetProjectById(projectId) {
   const response = await axios.get(`api/Projects/project/${projectId}`);
   return response.data;
 }
+
+export async function RemoveProjectById(projectId) {
+  const response = axios.delete(`api/Projects/delete/${projectId}`);
+  console.log(response);
+}
