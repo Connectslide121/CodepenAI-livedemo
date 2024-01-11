@@ -93,13 +93,27 @@ body {
 .codepen-header {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-bottom: 10px;
+}
+
+.codepen-header-title {
+  width: 20%;
+  color: #b1b1b1;
+}
+
+.codepen-header-title h2 {
+  word-wrap: break-word;
+}
+
+.codepen-header-buttons {
+  width: 75%;
 }
 
 .codepen-header-button {
   padding: 5px;
   margin: 6px;
-  width: 200px;
+  width: 170px;
   color: gray;
   background: #252525;
   border: 1px solid #525050;

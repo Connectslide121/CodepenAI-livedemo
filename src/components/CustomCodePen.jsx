@@ -273,6 +273,7 @@ export default function Codepen({
 
       console.log("Is project new: ", isNewProject);
       await updateProject(projectInfo);
+      setOpenedTitle(projectTitle);
       setRerenderKey((prevKey) => prevKey + 1);
     }
   };
@@ -336,91 +337,96 @@ export default function Codepen({
   return (
     <div className="codepen">
       <div className="codepen-header">
-        <button
-          title="New project"
-          onClick={handleNewProjectButtonClick}
-          className="codepen-header-button"
-        >
-          <FontAwesomeIcon icon={faFile} /> New project
-        </button>
-        <button
-          title="Save project"
-          onClick={handleSaveProjectButtonClick}
-          className={saveButtonClass}
-        >
-          <FontAwesomeIcon icon={faFloppyDisk} /> Save project
-        </button>
-        <button
-          title="Open project"
-          onClick={() => handleOpenProjectsButtonClick()}
-          className={openButtonClass}
-        >
-          <FontAwesomeIcon icon={faFolderOpen} /> My projects
-        </button>
-        <button
-          title="Download zip file"
-          onClick={() => downloadFolder()}
-          className="codepen-header-button"
-        >
-          <FontAwesomeIcon icon={faDownload} /> Download ZIP
-        </button>
-        <button
-          title="Clear code in project"
-          onClick={() => clearProject()}
-          className="codepen-header-button"
-        >
-          <FontAwesomeIcon icon={faTrashCan} /> Clear code
-        </button>
-        <select
-          name="Select theme"
-          className="codepen-header-button"
-          onChange={handleThemeChange}
-        >
-          <option value="dark">Default Dark theme</option>
-          <option value="light">Default Light theme</option>
-          <option value="abcdef">Abcdef theme</option>
-          <option value="abyss">Abyss theme</option>
-          <option value="androidstudio">AndroidStudio theme</option>
-          <option value="andromeda">Andromeda theme</option>
-          <option value="atomome">Atomome theme</option>
-          <option value="aura">Aura theme</option>
-          <option value="basicLight">Basic Light theme</option>
-          <option value="basicDark">Basic Dark theme</option>
-          <option value="bbedit">Bbedit theme</option>
-          <option value="bespin">Bespin theme</option>
-          <option value="copilot">Copilot theme</option>
-          <option value="darcula">Darcula theme</option>
-          <option value="dracula">Dracula theme</option>
-          <option value="duotoneLight">Duotone Light theme</option>
-          <option value="duotoneDark">Duotone Dark theme</option>
-          <option value="eclipse">Eclipse Theme</option>
-          <option value="githubLight">Github Light theme</option>
-          <option value="githubDark">Github Dark theme</option>
-          <option value="gruvboxDark">Gruvbox Dark theme</option>
-          <option value="gruvboxLight">Gruvbox Light theme</option>
-          <option value="kimbie">Kimbie theme</option>
-          <option value="materialLight">Material Light theme</option>
-          <option value="materialDark">Material Dark theme</option>
-          <option value="monokai">Monokai theme</option>
-          <option value="monokaiDimmed">Monokai Dimmed theme</option>
-          <option value="noctisLilac">Noctis Lilac theme</option>
-          <option value="nord">Nord theme</option>
-          <option value="okaidia">Okaidia theme</option>
-          <option value="red">Red theme</option>
-          <option value="quietlight">Quietlight theme</option>
-          <option value="solarizedLight">Solarized Light theme</option>
-          <option value="solarizedDark">Solarized Dark theme</option>
-          <option value="sublime">Sublime theme</option>
-          <option value="tokyoNight">Tokyo Night theme</option>
-          <option value="tokyoNightStorm">Tokyo Night Storm theme</option>
-          <option value="tokyoNightDay">Tokyo Night Day theme</option>
-          <option value="tomorrowNightBlue">Tomorrow Night Blue theme</option>
-          <option value="vscodeDark">Vscode Dark theme</option>
-          <option value="whiteLight">White Light theme</option>
-          <option value="whiteDark">White Dark theme</option>
-          <option value="xcodeLight">Xcode Light theme</option>
-          <option value="xcodeDark">Xcode Dark theme</option>
-        </select>
+        <div className="codepen-header-title">
+          <h1>{openedTitle}</h1>
+        </div>
+        <div className="codepen-header-buttons">
+          <button
+            title="New project"
+            onClick={handleNewProjectButtonClick}
+            className="codepen-header-button"
+          >
+            <FontAwesomeIcon icon={faFile} /> New project
+          </button>
+          <button
+            title="Save project"
+            onClick={handleSaveProjectButtonClick}
+            className={saveButtonClass}
+          >
+            <FontAwesomeIcon icon={faFloppyDisk} /> Save project
+          </button>
+          <button
+            title="Open project"
+            onClick={() => handleOpenProjectsButtonClick()}
+            className={openButtonClass}
+          >
+            <FontAwesomeIcon icon={faFolderOpen} /> My projects
+          </button>
+          <button
+            title="Download zip file"
+            onClick={() => downloadFolder()}
+            className="codepen-header-button"
+          >
+            <FontAwesomeIcon icon={faDownload} /> Download ZIP
+          </button>
+          <button
+            title="Clear code in project"
+            onClick={() => clearProject()}
+            className="codepen-header-button"
+          >
+            <FontAwesomeIcon icon={faTrashCan} /> Clear code
+          </button>
+          <select
+            name="Select theme"
+            className="codepen-header-button"
+            onChange={handleThemeChange}
+          >
+            <option value="dark">Default Dark theme</option>
+            <option value="light">Default Light theme</option>
+            <option value="abcdef">Abcdef theme</option>
+            <option value="abyss">Abyss theme</option>
+            <option value="androidstudio">AndroidStudio theme</option>
+            <option value="andromeda">Andromeda theme</option>
+            <option value="atomome">Atomome theme</option>
+            <option value="aura">Aura theme</option>
+            <option value="basicLight">Basic Light theme</option>
+            <option value="basicDark">Basic Dark theme</option>
+            <option value="bbedit">Bbedit theme</option>
+            <option value="bespin">Bespin theme</option>
+            <option value="copilot">Copilot theme</option>
+            <option value="darcula">Darcula theme</option>
+            <option value="dracula">Dracula theme</option>
+            <option value="duotoneLight">Duotone Light theme</option>
+            <option value="duotoneDark">Duotone Dark theme</option>
+            <option value="eclipse">Eclipse Theme</option>
+            <option value="githubLight">Github Light theme</option>
+            <option value="githubDark">Github Dark theme</option>
+            <option value="gruvboxDark">Gruvbox Dark theme</option>
+            <option value="gruvboxLight">Gruvbox Light theme</option>
+            <option value="kimbie">Kimbie theme</option>
+            <option value="materialLight">Material Light theme</option>
+            <option value="materialDark">Material Dark theme</option>
+            <option value="monokai">Monokai theme</option>
+            <option value="monokaiDimmed">Monokai Dimmed theme</option>
+            <option value="noctisLilac">Noctis Lilac theme</option>
+            <option value="nord">Nord theme</option>
+            <option value="okaidia">Okaidia theme</option>
+            <option value="red">Red theme</option>
+            <option value="quietlight">Quietlight theme</option>
+            <option value="solarizedLight">Solarized Light theme</option>
+            <option value="solarizedDark">Solarized Dark theme</option>
+            <option value="sublime">Sublime theme</option>
+            <option value="tokyoNight">Tokyo Night theme</option>
+            <option value="tokyoNightStorm">Tokyo Night Storm theme</option>
+            <option value="tokyoNightDay">Tokyo Night Day theme</option>
+            <option value="tomorrowNightBlue">Tomorrow Night Blue theme</option>
+            <option value="vscodeDark">Vscode Dark theme</option>
+            <option value="whiteLight">White Light theme</option>
+            <option value="whiteDark">White Dark theme</option>
+            <option value="xcodeLight">Xcode Light theme</option>
+            <option value="xcodeDark">Xcode Dark theme</option>
+          </select>
+        </div>
       </div>
       <div
         className={`save-project-form-dropdown ${

@@ -69,6 +69,7 @@ export default function SaveProjectForm(props) {
             id="title"
             value={projectTitle}
             onChange={handleProjectTitleChange}
+            maxLength={20}
             required
           />
         </div>
