@@ -131,6 +131,7 @@ body {
 .save-project-form-dropdown,
 .open-project-list-dropdown {
   position: relative;
+  overflow: hidden;
   opacity: 0;
   max-height: 0;
   transition: opacity 0.5s ease, max-height 0.5s ease;
@@ -280,13 +281,16 @@ body {
   transform: scale(1.2);
 }
 
-.code-boxes {
+.codepen {
   position: relative;
+  z-index: 100;
+}
+
+.code-boxes {
   display: flex;
   justify-content: center;
   gap: 5px;
   width: 100%;
-  z-index: 100;
 }
 
 .code-box {

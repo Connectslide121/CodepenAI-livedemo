@@ -7,8 +7,8 @@ import { css as cssLanguage } from "@codemirror/lang-css";
 import { javascript as jsLanguage } from "@codemirror/lang-javascript";
 import * as themes from "@uiw/codemirror-themes-all";
 
-import SaveProjectForm from "./SaveProjectForm";
-import OpenProjectList from "./OpenProjectList";
+import SaveProjectForm from "./SaveProjectForm.jsx";
+import ProjectList from "./ProjectList.jsx";
 import { GetProjectById, RemoveProjectById } from "../APIs/API";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -32,7 +32,8 @@ export default function Codepen({
   jsCode: jsAI,
   onCodeChange,
   updateImages,
-  saveProject
+  saveProject,
+  updateProject
 }) {
   const [htmlCode, setHtml] = useState("");
   const [cssCode, setCss] = useState("");
@@ -49,6 +50,11 @@ export default function Codepen({
   const [showSaveProjectForm, setShowSaveProjectForm] = useState(false);
   const [showOpenProjectList, setShowOpenProjectList] = useState(false);
   const [rerenderKey, setRerenderKey] = useState(0);
+  const [openedId, setOpenedId] = useState();
+  const [openedTitle, setOpenedTitle] = useState();
+  const [openedDescription, setOpenedDescription] = useState();
+  const [openedCreateDate, setOpenedCreateDate] = useState();
+  const [isNewProject, setIsNewProject] = useState(true);
 
   const updateOutput = useCallback(() => {
     const iframe = document.querySelector(".output-frame");
@@ -221,16 +227,39 @@ export default function Codepen({
     ? "header-button-active"
     : "codepen-header-button";
 
-  const handleSaveProject = async (projectTitle, projectDescription) => {
-    const props = {
-      projectTitle,
-      projectDescription,
-      htmlCode,
-      cssCode,
-      jsCode
-    };
-    await saveProject(props);
-    setRerenderKey((prevKey) => prevKey + 1);
+  const handleSaveProject = async (
+    projectId,
+    projectTitle,
+    projectDescription,
+    projectCreateDate
+  ) => {
+    if (isNewProject) {
+      const projectInfo = {
+        projectTitle,
+        projectDescription,
+        htmlCode,
+        cssCode,
+        jsCode
+      };
+
+      console.log("Is project new: ", isNewProject);
+      await saveProject(projectInfo);
+      setRerenderKey((prevKey) => prevKey + 1);
+    } else {
+      const projectInfo = {
+        projectId,
+        projectTitle,
+        projectDescription,
+        projectCreateDate,
+        htmlCode,
+        cssCode,
+        jsCode
+      };
+
+      console.log("Is project new: ", isNewProject);
+      await updateProject(projectInfo);
+      setRerenderKey((prevKey) => prevKey + 1);
+    }
   };
 
   //********************* open projects **************************/
@@ -253,6 +282,11 @@ export default function Codepen({
     setHtmlUndoHistory([]);
     setCssUndoHistory([]);
     setJsUndoHistory([]);
+    setOpenedTitle(projectData.title);
+    setOpenedDescription(projectData.description);
+    setOpenedId(projectData.projectId);
+    setOpenedCreateDate(projectData.createdAt);
+    setIsNewProject(false);
   };
 
   //********************* delete project **************************/
@@ -277,7 +311,7 @@ export default function Codepen({
 
   const handleThemeChange = (e) => {
     const themeName = e.target.value;
-    if (themeName == "dark") {
+    if (themeName === "dark") {
       setTheme("dark");
     } else setTheme(themes[themeName]);
   };
@@ -299,7 +333,7 @@ export default function Codepen({
           onClick={() => handleOpenProjectsButtonClick()}
           className={openButtonClass}
         >
-          <FontAwesomeIcon icon={faFolderOpen} /> Open project
+          <FontAwesomeIcon icon={faFolderOpen} /> My projects
         </button>
         <button
           title="Download zip file containing the three code files"
@@ -371,174 +405,185 @@ export default function Codepen({
           showSaveProjectForm ? "active" : ""
         }`}
       >
-        <SaveProjectForm handleSaveProject={handleSaveProject} />
+        <SaveProjectForm
+          handleSaveProject={handleSaveProject}
+          openedTitle={openedTitle}
+          openedDescription={openedDescription}
+          openedId={openedId}
+          openedCreateDate={openedCreateDate}
+        />
       </div>
       <div
         className={`open-project-list-dropdown ${
           showOpenProjectList ? "active" : ""
         }`}
       >
-        <OpenProjectList
+        <ProjectList
           openProject={openProjectById}
           deleteProject={deleteProjectById}
           rerenderKey={rerenderKey}
         />
       </div>
-      <div className="code-boxes">
-        {/* html box*/}
-        <div className="code-box html-box">
-          <div className="box-header">
-            <div className="box-title">
-              <FontAwesomeIcon className="html-icon" icon={faHtml5} />
-              <p>HTML</p>
+      <div className="codepen">
+        <div className="code-boxes">
+          {/* html box*/}
+          <div className="code-box html-box">
+            <div className="box-header">
+              <div className="box-title">
+                <FontAwesomeIcon className="html-icon" icon={faHtml5} />
+                <p>HTML</p>
+              </div>
+              <div className="box-controls">
+                <button
+                  title="Update images based on their 'alt' attribute"
+                  onClick={() => updateImages(htmlCode)}
+                >
+                  <FontAwesomeIcon icon={faArrowsRotate} /> Update images
+                </button>
+                <button title="Undo" onClick={() => undoHtml()}>
+                  <FontAwesomeIcon icon={faRotateLeft} />
+                </button>
+                <button title="Redo" onClick={() => redoHtml()}>
+                  <FontAwesomeIcon icon={faRotateRight} />
+                </button>
+                <button
+                  title="Copy code"
+                  onClick={() => navigator.clipboard.writeText(htmlCode)}
+                >
+                  <FontAwesomeIcon icon={faCopy} />
+                </button>
+                <button
+                  title="Clear code"
+                  onClick={() => {
+                    setHtml("");
+                    updateHtmlHistory();
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrashCan} />
+                </button>
+              </div>
             </div>
-            <div className="box-controls">
-              <button
-                title="Update images based on their 'alt' attribute"
-                onClick={() => updateImages(htmlCode)}
-              >
-                <FontAwesomeIcon icon={faArrowsRotate} /> Update images
-              </button>
-              <button title="Undo" onClick={() => undoHtml()}>
-                <FontAwesomeIcon icon={faRotateLeft} />
-              </button>
-              <button title="Redo" onClick={() => redoHtml()}>
-                <FontAwesomeIcon icon={faRotateRight} />
-              </button>
-              <button
-                title="Copy code"
-                onClick={() => navigator.clipboard.writeText(htmlCode)}
-              >
-                <FontAwesomeIcon icon={faCopy} />
-              </button>
-              <button
-                title="Clear code"
-                onClick={() => {
-                  setHtml("");
+            <div>
+              <CodeMirror
+                className="htmlCodeBox"
+                value={htmlCode}
+                theme={theme}
+                height="350px"
+                extensions={[htmlLanguage(), color]}
+                onChange={(value) => {
+                  setHtml(value);
                   updateHtmlHistory();
                 }}
-              >
-                <FontAwesomeIcon icon={faTrashCan} />
-              </button>
+              />
             </div>
           </div>
-          <div>
-            <CodeMirror
-              className="htmlCodeBox"
-              value={htmlCode}
-              theme={theme}
-              height="350px"
-              extensions={[htmlLanguage(), color]}
-              onChange={(value) => {
-                setHtml(value);
-                updateHtmlHistory();
-              }}
-            />
-          </div>
-        </div>
-        {/* css box*/}
-        <div className="code-box css-box">
-          <div className="box-header">
-            <div className="box-title">
-              <FontAwesomeIcon className="css-icon" icon={faCss3Alt} />
-              <p>CSS</p>
+          {/* css box*/}
+          <div className="code-box css-box">
+            <div className="box-header">
+              <div className="box-title">
+                <FontAwesomeIcon className="css-icon" icon={faCss3Alt} />
+                <p>CSS</p>
+              </div>
+              <div className="box-controls">
+                <button title="Undo" onClick={() => undoCss()}>
+                  <FontAwesomeIcon icon={faRotateLeft} />
+                </button>
+                <button title="Redo" onClick={() => redoCss()}>
+                  <FontAwesomeIcon icon={faRotateRight} />
+                </button>
+                <button
+                  title="Copy code"
+                  onClick={() => navigator.clipboard.writeText(cssCode)}
+                >
+                  <FontAwesomeIcon icon={faCopy} />
+                </button>
+                <button
+                  title="Clear code"
+                  onClick={() => {
+                    setCss("");
+                    updateCssHistory();
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrashCan} />
+                </button>
+              </div>
             </div>
-            <div className="box-controls">
-              <button title="Undo" onClick={() => undoCss()}>
-                <FontAwesomeIcon icon={faRotateLeft} />
-              </button>
-              <button title="Redo" onClick={() => redoCss()}>
-                <FontAwesomeIcon icon={faRotateRight} />
-              </button>
-              <button
-                title="Copy code"
-                onClick={() => navigator.clipboard.writeText(cssCode)}
-              >
-                <FontAwesomeIcon icon={faCopy} />
-              </button>
-              <button
-                title="Clear code"
-                onClick={() => {
-                  setCss("");
+            <div>
+              <CodeMirror
+                className="cssCodeBox"
+                value={cssCode}
+                theme={theme}
+                height="350px"
+                extensions={[cssLanguage(), color]}
+                onChange={(value) => {
+                  setCss(value);
                   updateCssHistory();
                 }}
-              >
-                <FontAwesomeIcon icon={faTrashCan} />
-              </button>
+              />
             </div>
           </div>
-          <div>
-            <CodeMirror
-              className="cssCodeBox"
-              value={cssCode}
-              theme={theme}
-              height="350px"
-              extensions={[cssLanguage(), color]}
-              onChange={(value) => {
-                setCss(value);
-                updateCssHistory();
-              }}
-            />
-          </div>
-        </div>
-        {/* javascript box*/}
-        <div className="code-box js-box">
-          <div className="box-header">
-            <div className="box-title">
-              <FontAwesomeIcon className="js-icon" icon={faJs} />
-              <p>JS</p>
+          {/* javascript box*/}
+          <div className="code-box js-box">
+            <div className="box-header">
+              <div className="box-title">
+                <FontAwesomeIcon className="js-icon" icon={faJs} />
+                <p>JS</p>
+              </div>
+              <div className="box-controls">
+                <button title="Undo" onClick={() => undoJs()}>
+                  <FontAwesomeIcon icon={faRotateLeft} />
+                </button>
+                <button title="Redo" onClick={() => redoJs()}>
+                  <FontAwesomeIcon icon={faRotateRight} />
+                </button>
+                <button
+                  title="Copy code"
+                  onClick={() => navigator.clipboard.writeText(jsCode)}
+                >
+                  <FontAwesomeIcon icon={faCopy} />
+                </button>
+                <button
+                  title="Clear code"
+                  onClick={() => {
+                    setJs("");
+                    updateJsHistory();
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrashCan} />
+                </button>
+              </div>
             </div>
-            <div className="box-controls">
-              <button title="Undo" onClick={() => undoJs()}>
-                <FontAwesomeIcon icon={faRotateLeft} />
-              </button>
-              <button title="Redo" onClick={() => redoJs()}>
-                <FontAwesomeIcon icon={faRotateRight} />
-              </button>
-              <button
-                title="Copy code"
-                onClick={() => navigator.clipboard.writeText(jsCode)}
-              >
-                <FontAwesomeIcon icon={faCopy} />
-              </button>
-              <button
-                title="Clear code"
-                onClick={() => {
-                  setJs("");
+            <div>
+              <CodeMirror
+                className="jsCodeBox"
+                value={jsCode}
+                theme={theme}
+                height="350px"
+                extensions={[jsLanguage({ jsx: false }), color]}
+                onChange={(value) => {
+                  setJs(value);
                   updateJsHistory();
                 }}
-              >
-                <FontAwesomeIcon icon={faTrashCan} />
-              </button>
+              />
             </div>
           </div>
-          <div>
-            <CodeMirror
-              className="jsCodeBox"
-              value={jsCode}
-              theme={theme}
-              height="350px"
-              extensions={[jsLanguage({ jsx: false }), color]}
-              onChange={(value) => {
-                setJs(value);
-                updateJsHistory();
-              }}
+        </div>
+        {/* preview box*/}
+        <div className="preview">
+          <div className="box-title preview-title">
+            <FontAwesomeIcon
+              className="preview-icon"
+              icon={faMagnifyingGlass}
             />
+            <p>PREVIEW</p>
           </div>
+          <iframe
+            className="output-frame"
+            title="Result"
+            srcDoc={output}
+            style={{ height: outputHeight }}
+          />
         </div>
-      </div>
-      {/* preview box*/}
-      <div className="preview">
-        <div className="box-title preview-title">
-          <FontAwesomeIcon className="preview-icon" icon={faMagnifyingGlass} />
-          <p>PREVIEW</p>
-        </div>
-        <iframe
-          className="output-frame"
-          title="Result"
-          srcDoc={output}
-          style={{ height: outputHeight }}
-        />
       </div>
     </div>
   );

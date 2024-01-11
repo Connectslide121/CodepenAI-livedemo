@@ -3,7 +3,7 @@ import { apiKey as configApiKey } from "../functions/config.js";
 import promptContext from "../functions/promptContext.js";
 import { HandleResponseFromAPI } from "../functions/ResponseSpliter.js";
 
-export default async function CallAI(prompt, apiKey) {
+export default async function CallOpenai(prompt, apiKey) {
   const API_KEY = configApiKey || apiKey;
   const openai = new OpenAI({ apiKey: API_KEY, dangerouslyAllowBrowser: true });
 
@@ -11,11 +11,9 @@ export default async function CallAI(prompt, apiKey) {
     messages: [{ role: "system", content: promptContext + prompt }],
     model: "gpt-3.5-turbo-1106"
   };
-  // console.log("Calling API:", options);
 
   const responseObject = await openai.chat.completions.create(options);
   const responseCode = responseObject.choices[0].message.content;
 
-  // console.log("Response from API (object):", responseObject);
   return HandleResponseFromAPI(responseCode);
 }

@@ -3,7 +3,7 @@ import { GetProjects } from "../APIs/API";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
-export default function OpenProjectList(props) {
+export default function ProjectList(props) {
   const [projectList, setProjectList] = useState([]);
 
   useEffect(() => {
@@ -32,10 +32,9 @@ export default function OpenProjectList(props) {
 
         <ul>
           {projectList.map((project) => (
-            <div className="project-list-item">
+            <div key={project.projectId} className="project-list-item">
               <li
                 title="Open project"
-                key={project.projectId}
                 onClick={() => props.openProject(project.projectId)}
               >
                 <div className="project-title">{project.title}</div>

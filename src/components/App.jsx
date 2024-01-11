@@ -5,11 +5,12 @@ import "../style.css";
 import Codepen from "./CustomCodePen.jsx";
 import InputArea from "./InputArea.jsx";
 import Header from "./Header.jsx";
-import CallAI from "../APIs/Openai.js";
+import CallOpenai from "../APIs/Openai.js";
 import LoadingState from "./LoadingState.jsx";
+import CallGemini from "../APIs/Gemini.js";
 
 import { addImages } from "../functions/ImageAttatcher.js";
-import { CreateProject, GetProjects } from "../APIs/API.js";
+import { CreateProject, GetProjects, UpdateProject } from "../APIs/API.js";
 
 const trackingID = "G-VF2P86QY5Q";
 ReactGA.initialize(trackingID);
@@ -42,7 +43,7 @@ function App() {
   const handleSubmit = (userMessage, apiKey) => {
     async function requestAPI() {
       setLoadingMessage("Generating code...");
-      const codeAI = await CallAI(PromptBuilder(userMessage), apiKey);
+      const codeAI = await CallOpenai(PromptBuilder(userMessage), apiKey);
 
       const htmlCode = codeAI[0];
       setLoadingMessage("Getting images...");
@@ -76,6 +77,7 @@ function App() {
         updateImages={updateImages}
         saveProject={CreateProject}
         openProjects={GetProjects}
+        updateProject={UpdateProject}
       />
     </>
   );
