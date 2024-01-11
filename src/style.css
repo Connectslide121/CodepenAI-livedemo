@@ -122,9 +122,9 @@ body {
   padding: 5px;
   margin: 6px;
   width: 200px;
-  color: gray;
-  background: #33363f;
-  border: 1px solid #525050;
+  border: solid 1px #525050;
+  color: #b1b1b1;
+  background: #373737;
   font-size: 16px;
 }
 
@@ -202,19 +202,23 @@ body {
 }
 
 .save-project-form form button:active {
-  background: #33363f;
+  background: #373737;
 }
 
 .project-list-wrapper {
   color: #797878;
-  width: 60%;
+  width: 70%;
   margin: 0 auto 30px;
 }
 
 .project-list-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-bottom: 10px;
+}
+
+.project-list-header .spacer {
+  width: 20px;
 }
 
 .project-list-header div {
@@ -245,6 +249,7 @@ body {
   border-radius: 6px;
   border: solid 1px #252525;
   width: 100%;
+  transition: color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
 
 .project-list-wrapper ul li:hover {
@@ -267,12 +272,16 @@ body {
 }
 
 .project-date {
-  width: 20%;
+  width: 12%;
+}
+.project-update-date {
+  width: 12%;
 }
 
 .delete-project-button {
   margin-left: 15px;
-  transition: transform 0.2s ease, color 0.5s ease;
+  width: 20px;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .delete-project-button:hover {

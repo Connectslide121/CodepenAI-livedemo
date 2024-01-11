@@ -25,6 +25,7 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { faFolderOpen } from "@fortawesome/free-solid-svg-icons";
+import { faFile } from "@fortawesome/free-solid-svg-icons";
 
 export default function Codepen({
   htmlCode: htmlAI,
@@ -50,10 +51,10 @@ export default function Codepen({
   const [showSaveProjectForm, setShowSaveProjectForm] = useState(false);
   const [showOpenProjectList, setShowOpenProjectList] = useState(false);
   const [rerenderKey, setRerenderKey] = useState(0);
-  const [openedId, setOpenedId] = useState();
-  const [openedTitle, setOpenedTitle] = useState();
-  const [openedDescription, setOpenedDescription] = useState();
-  const [openedCreateDate, setOpenedCreateDate] = useState();
+  const [openedId, setOpenedId] = useState("");
+  const [openedTitle, setOpenedTitle] = useState("");
+  const [openedDescription, setOpenedDescription] = useState("");
+  const [openedCreateDate, setOpenedCreateDate] = useState("");
   const [isNewProject, setIsNewProject] = useState(true);
 
   const updateOutput = useCallback(() => {
@@ -216,6 +217,20 @@ export default function Codepen({
     });
   };
 
+  //********************* new project **************************/
+  const handleNewProjectButtonClick = () => {
+    setIsNewProject(true);
+    setShowOpenProjectList(false);
+    setShowSaveProjectForm(false);
+    setHtml("");
+    setCss("");
+    setJs("");
+    setOpenedTitle("");
+    setOpenedDescription("");
+    setOpenedId("");
+    setOpenedCreateDate("");
+  };
+
   //********************* save project **************************/
 
   const handleSaveProjectButtonClick = () => {
@@ -322,6 +337,13 @@ export default function Codepen({
     <div className="codepen">
       <div className="codepen-header">
         <button
+          title="New project"
+          onClick={handleNewProjectButtonClick}
+          className="codepen-header-button"
+        >
+          <FontAwesomeIcon icon={faFile} /> New project
+        </button>
+        <button
           title="Save project"
           onClick={handleSaveProjectButtonClick}
           className={saveButtonClass}
@@ -336,14 +358,14 @@ export default function Codepen({
           <FontAwesomeIcon icon={faFolderOpen} /> My projects
         </button>
         <button
-          title="Download zip file containing the three code files"
+          title="Download zip file"
           onClick={() => downloadFolder()}
           className="codepen-header-button"
         >
           <FontAwesomeIcon icon={faDownload} /> Download ZIP
         </button>
         <button
-          title="Clear project"
+          title="Clear code in project"
           onClick={() => clearProject()}
           className="codepen-header-button"
         >

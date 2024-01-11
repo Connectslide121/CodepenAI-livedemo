@@ -16,7 +16,7 @@ export default function ProjectList(props) {
   }, [props.rerenderKey]);
 
   const formatDate = (dateString) => {
-    const options = { day: "numeric", month: "long", year: "numeric" };
+    const options = { day: "numeric", month: "short", year: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
@@ -26,7 +26,8 @@ export default function ProjectList(props) {
         <div className="project-list-header">
           <div className="project-title">Title</div>
           <div className="project-description">Description</div>
-          <div className="project-date">Date created</div>
+          <div className="project-date">Created</div>
+          <div className="project-update-date">Updated</div>
           <div className="spacer"></div>
         </div>
 
@@ -41,6 +42,9 @@ export default function ProjectList(props) {
                 <div className="project-description">{project.description}</div>
                 <div className="project-date">
                   {formatDate(project.createdAt)}
+                </div>
+                <div className="project-update-date">
+                  {formatDate(project.updatedAt)}
                 </div>
               </li>
               <div
