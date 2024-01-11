@@ -16,7 +16,6 @@ export async function CreateProject(props) {
       alert("Error saving project, there is no connection to the server");
       console.log("Error saving project:", error);
     });
-  console.log("Create project response:", response);
 }
 
 export async function GetProjects() {
@@ -53,7 +52,6 @@ export async function UpdateProject(props) {
       alert("Error updating project, there is no connection to the server");
       console.log("Error updating project:", error);
     });
-  console.log("Update project response:", response);
 }
 
 export async function RemoveProjectById(projectId) {

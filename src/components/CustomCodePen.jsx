@@ -257,7 +257,6 @@ export default function Codepen({
         jsCode
       };
 
-      console.log("Is project new: ", isNewProject);
       await saveProject(projectInfo);
       setRerenderKey((prevKey) => prevKey + 1);
     } else {
@@ -271,7 +270,6 @@ export default function Codepen({
         jsCode
       };
 
-      console.log("Is project new: ", isNewProject);
       await updateProject(projectInfo);
       setOpenedTitle(projectTitle);
       setRerenderKey((prevKey) => prevKey + 1);
