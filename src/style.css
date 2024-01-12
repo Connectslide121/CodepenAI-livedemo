@@ -69,6 +69,9 @@ body {
 .input-container button:hover {
   background: #0f9e7abd;
 }
+.input-container button:active {
+  background: #0f9e7a71;
+}
 
 .loadingSpinner {
   display: flex;

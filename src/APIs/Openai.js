@@ -10,6 +10,7 @@ export default async function CallOpenai(prompt, apiKey) {
   const options = {
     messages: [{ role: "system", content: promptContext + prompt }],
     model: "gpt-3.5-turbo-1106"
+    // model: "gpt-4-1106-preview"
   };
 
   const responseObject = await openai.chat.completions.create(options);
