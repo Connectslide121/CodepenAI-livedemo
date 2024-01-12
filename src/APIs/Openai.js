@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { apiKey as configApiKey } from "../functions/config.js";
+import { openaiKey as configApiKey } from "../functions/config.js";
 import promptContext from "../functions/promptContext.js";
 import { HandleResponseFromAPI } from "../functions/ResponseSpliter.js";
 
