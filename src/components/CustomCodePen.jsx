@@ -52,7 +52,7 @@ export default function Codepen({
   const [showOpenProjectList, setShowOpenProjectList] = useState(false);
   const [rerenderKey, setRerenderKey] = useState(0);
   const [openedId, setOpenedId] = useState("");
-  const [openedTitle, setOpenedTitle] = useState("");
+  const [openedTitle, setOpenedTitle] = useState("New project");
   const [openedDescription, setOpenedDescription] = useState("");
   const [openedCreateDate, setOpenedCreateDate] = useState("");
   const [isNewProject, setIsNewProject] = useState(true);
@@ -225,7 +225,7 @@ export default function Codepen({
     setHtml("");
     setCss("");
     setJs("");
-    setOpenedTitle("");
+    setOpenedTitle("New project");
     setOpenedDescription("");
     setOpenedId("");
     setOpenedCreateDate("");
