@@ -7,6 +7,9 @@
 body {
   background: #131417;
   font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .header-wrapper {
@@ -396,4 +399,17 @@ body {
   width: 100%;
   border: none;
   overflow-y: hidden;
+}
+
+footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: gray;
+  background: #252525;
+  border: 1px solid #525050;
+  margin-top: auto;
+  padding: 50px;
+  font-size: 18px;
 }

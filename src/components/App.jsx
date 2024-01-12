@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import ReactGA from "react-ga";
 import "../style.css";
 
-import Codepen from "./CustomCodePen.jsx";
-import InputArea from "./InputArea.jsx";
 import Header from "./Header.jsx";
-import CallOpenai from "../APIs/Openai.js";
+import InputArea from "./InputArea.jsx";
 import LoadingState from "./LoadingState.jsx";
+import Codepen from "./CustomCodePen.jsx";
+
+import CallOpenai from "../APIs/Openai.js";
 import CallGemini from "../APIs/Gemini.js";
 
 import { addImages } from "../functions/ImageAttatcher.js";
 import { CreateProject, GetProjects, UpdateProject } from "../APIs/API.js";
+import Footer from "./Footer.jsx";
 
 const trackingID = "G-VF2P86QY5Q";
 ReactGA.initialize(trackingID);
@@ -79,6 +81,7 @@ function App() {
         openProjects={GetProjects}
         updateProject={UpdateProject}
       />
+      <Footer />
     </>
   );
 }
