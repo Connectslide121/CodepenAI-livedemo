@@ -23,6 +23,7 @@ body {
 .header-logo {
   width: 50px;
   border-radius: 50%;
+  box-shadow: 0px 0px 8px 8px #0ebeff;
 }
 
 .input-container form {
@@ -61,7 +62,9 @@ body {
 .input-container button {
   font-size: 24px;
   margin-left: 12px;
-  background: #0f9e7b;
+  background: #0ebeff;
+  box-shadow: 0px 0px 3px 3px #0ebeff;
+
   color: #131417;
   border: none;
   border-radius: 10px;
@@ -70,10 +73,12 @@ body {
 }
 
 .input-container button:hover {
-  background: #0f9e7abd;
+  background: #0ebfffc9;
+  box-shadow: 0px 0px 3px 3px #0ebfffc9;
 }
 .input-container button:active {
-  background: #0f9e7a71;
+  background: #0ebfff98;
+  box-shadow: 0px 0px 3px 3px #0ebfff98;
 }
 
 .loadingSpinner {
