@@ -6,6 +6,6 @@ Introducing an innovative web development platform, harnessing the power of AI t
 
 This is just a live demo, there in no back end. The data gets reset when page reloads.
 
-Try it [here](https://connectslide121.github.io/codepen-ai/)
+Try it [here](https://connectslide121.github.io/CodepenAI-livedemo/)
 
 Back-end repository [here](https://github.com/Connectslide121/CodepenAI-API)
