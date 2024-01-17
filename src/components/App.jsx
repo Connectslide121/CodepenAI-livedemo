@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ReactGA from "react-ga";
 import "../style.css";
 
 import Header from "./Header.jsx";
@@ -13,9 +12,6 @@ import CallGemini from "../APIs/Gemini.js";
 import { addImages } from "../functions/ImageAttatcher.js";
 import { CreateProject, GetProjects, UpdateProject } from "../APIs/API.js";
 import Footer from "./Footer.jsx";
-
-const trackingID = "G-VF2P86QY5Q";
-ReactGA.initialize(trackingID);
 
 function App() {
   const [html, setHtml] = useState("");
