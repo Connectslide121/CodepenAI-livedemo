@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/CodepenAI-livedemo/static/css/main.05b05893.css",
-    "main.js": "/CodepenAI-livedemo/static/js/main.82e050a5.js",
+    "main.js": "/CodepenAI-livedemo/static/js/main.90f6486b.js",
     "static/media/codepenAI.png": "/CodepenAI-livedemo/static/media/codepenAI.f2ad8253edb18b25cd69.png",
     "index.html": "/CodepenAI-livedemo/index.html",
     "static/media/spinner.svg": "/CodepenAI-livedemo/static/media/spinner.f069ff2d7b7a77fd85724b28f4db9569.svg",
     "main.05b05893.css.map": "/CodepenAI-livedemo/static/css/main.05b05893.css.map",
-    "main.82e050a5.js.map": "/CodepenAI-livedemo/static/js/main.82e050a5.js.map"
+    "main.90f6486b.js.map": "/CodepenAI-livedemo/static/js/main.90f6486b.js.map"
   },
   "entrypoints": [
     "static/css/main.05b05893.css",
-    "static/js/main.82e050a5.js"
+    "static/js/main.90f6486b.js"
   ]
 }
