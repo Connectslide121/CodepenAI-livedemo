@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../style.css";
 
 import Header from "./Header.jsx";
@@ -19,10 +19,6 @@ function App() {
   const [js, setJs] = useState("");
   const [currentCode, setCurrentCode] = useState("");
   const [loadingMessage, setLoadingMessage] = useState("");
-
-  useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
-  }, []);
 
   const handleCodeChangeFromUser = (newCode) => {
     setCurrentCode(newCode);

@@ -1,8 +1,7 @@
 {
-  "homepage": "https://connectslide121.github.io/codepen-ai/",
+  "homepage": "https://connectslide121.github.io/CodepenAI-livedemo/",
   "name": "codepen-ai",
   "version": "0.1.0",
-  "proxy": "https://localhost:7240",
   "private": true,
   "dependencies": {
     "@codemirror/lang-css": "^6.2.1",
@@ -21,7 +20,6 @@
     "@uiw/codemirror-theme-monokai": "^4.21.21",
     "@uiw/codemirror-themes-all": "^4.21.21",
     "@uiw/react-codemirror": "^4.21.21",
-    "axios": "^1.6.5",
     "jszip": "^3.10.1",
     "openai": "^4.0.0",
     "react": "^18.2.0",

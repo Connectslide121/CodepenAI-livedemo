@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export async function CreateProject(props) {
   const response = await axios
     .post("api/Projects/create", {
